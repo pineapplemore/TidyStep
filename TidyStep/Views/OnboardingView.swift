@@ -41,7 +41,7 @@ struct OnboardingView: View {
                         .font(.subheadline)
                         .foregroundStyle(.white)
                 }
-                .tint(Color(hex: 0x2563EB))
+                .tint(Color(hex: 0x5EEAD4))
                 .padding(.horizontal, 32)
                 .padding(.top, 8)
 
@@ -50,11 +50,11 @@ struct OnboardingView: View {
                 } label: {
                     Text(appLanguage.string("onboarding_ok"))
                         .font(.headline)
-                        .foregroundStyle(.white)
+                        .foregroundStyle(.black)
                         .frame(maxWidth: .infinity)
                         .padding(.vertical, 16)
-                        .background(Color(hex: 0x2563EB))
-                        .clipShape(RoundedRectangle(cornerRadius: 14))
+                        .background(Color(hex: 0x5EEAD4))
+                        .clipShape(Capsule())
                 }
                 .padding(.horizontal, 32)
                 .padding(.top, 16)

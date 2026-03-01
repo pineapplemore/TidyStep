@@ -18,6 +18,13 @@ struct WeekBarItem: Identifiable {
     let sessionCount: Int
 }
 
+/// One point for the 12-month line chart (month start date + session count).
+struct MonthChartItem: Identifiable {
+    let id: String
+    let monthStart: Date
+    let sessionCount: Int
+}
+
 extension StorageManager {
 
     /// Sessions that ended within the current calendar week (locale).
@@ -68,6 +75,24 @@ extension StorageManager {
             items.append(WeekBarItem(
                 id: "\(offset)",
                 weekStart: weekStart,
+                sessionCount: count
+            ))
+        }
+        return items
+    }
+
+    /// Last 12 months: month start date and session count for line chart (matches 1-year retention).
+    var last12MonthsLineItems: [MonthChartItem] {
+        let cal = Calendar.current
+        var items: [MonthChartItem] = []
+        guard let thisMonthStart = cal.dateInterval(of: .month, for: Date())?.start else { return items }
+        for offset in (0..<12).reversed() {
+            guard let monthStart = cal.date(byAdding: .month, value: -offset, to: thisMonthStart) else { continue }
+            let monthEnd = cal.date(byAdding: .month, value: 1, to: monthStart) ?? monthStart
+            let count = sessions.filter { $0.endDate >= monthStart && $0.endDate < monthEnd }.count
+            items.append(MonthChartItem(
+                id: "m\(offset)",
+                monthStart: monthStart,
                 sessionCount: count
             ))
         }

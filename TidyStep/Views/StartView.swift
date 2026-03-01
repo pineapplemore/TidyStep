@@ -23,12 +23,10 @@ struct StartView: View {
                 } else {
                     VStack(spacing: 32) {
                         Spacer()
-                        HStack(spacing: 12) {
-                            Image(systemName: "figure.walk")
-                            Image(systemName: "iphone")
-                        }
-                        .font(.system(size: 52))
-                        .foregroundStyle(Color(hex: 0x6B7280))
+                        Image("AppLogo")
+                            .resizable()
+                            .scaledToFit()
+                            .frame(width: 96, height: 96)
 
                         Text(appLanguage.string("start_title"))
                             .font(.title2)
@@ -61,11 +59,11 @@ struct StartView: View {
                         } label: {
                             Text(appLanguage.string("start_button"))
                                 .font(.headline)
-                                .foregroundStyle(.white)
+                                .foregroundStyle(.black)
                                 .frame(maxWidth: .infinity)
                                 .padding(.vertical, 16)
-                                .background(Color(hex: 0x2563EB))
-                                .clipShape(RoundedRectangle(cornerRadius: 14))
+                                .background(Color(hex: 0x5EEAD4))
+                                .clipShape(Capsule())
                         }
                         .padding(.horizontal, 32)
                         .padding(.top, 16)

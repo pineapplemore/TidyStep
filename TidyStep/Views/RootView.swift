@@ -33,6 +33,7 @@ struct RootView: View {
                 }
                 .tag(3)
         }
+        .tint(Color(hex: 0x5EEAD4))
         .preferredColorScheme(.dark)
         .alert(appLanguage.string("alert_still_cleaning_title"), isPresented: $session.showThirtyMinuteAlert) {
             Button(appLanguage.string("alert_still_yes")) {

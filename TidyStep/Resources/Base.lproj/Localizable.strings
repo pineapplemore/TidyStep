@@ -9,6 +9,7 @@
 "stats_this_month" = "This month";
 "stats_sessions" = "Sessions";
 "stats_last_8_weeks" = "Last 8 weeks";
+"stats_last_12_months" = "Last 12 months";
 
 /* Start */
 "start_title" = "Ready to clean?";
@@ -53,6 +54,8 @@
 
 /* History */
 "history_empty" = "No sessions yet. Start cleaning to see your history here.";
+"history_subscribe_to_unlock" = "Subscribe to view all your history.";
+"history_subscribe_hint" = "Subscribe to unlock full history.";
 
 /* Settings */
 "settings_weight_section" = "Calorie accuracy";
@@ -73,12 +76,8 @@
 "weekday_fri" = "Friday";
 "weekday_sat" = "Saturday";
 
-/* Notifications */
+/* Notifications (body text from EncouragementLibrary) */
 "notification_weekly_title" = "Time to clean";
-"notification_weekly_body" = "A good environment can brighten your whole day. Start a quick tidy when you're ready.";
-"notification_weekly_body_2" = "A tidy space helps you get twice the result with half the effort. Time for a clean-up!";
-"notification_weekly_body_3" = "A clean room makes the mind clear. Ready to tidy up?";
-"notification_weekly_body_4" = "A little cleaning goes a long way. Your future self will thank you.";
 
 /* Onboarding */
 "onboarding_title" = "How it works";

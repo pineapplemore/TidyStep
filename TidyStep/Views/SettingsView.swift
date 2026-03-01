@@ -15,7 +15,7 @@ struct SettingsView: View {
     @State private var reminderEnabled: Bool = true
     @State private var reminderIntervalDays: Int = 0
     @State private var reminderWeekday: Int = 1
-    @State private var reminderHour: Int = 20
+    @State private var reminderHour: Int = 8
     @State private var reminderMinute: Int = 0
     @State private var notificationPermissionGranted: Bool? = nil
 
@@ -73,7 +73,7 @@ struct SettingsView: View {
                             Text(appLanguage.string("reminder_enabled"))
                                 .foregroundStyle(.white)
                         }
-                        .tint(Color(hex: 0x2563EB))
+                        .tint(Color(hex: 0x5EEAD4))
                         .onChange(of: reminderEnabled) { _ in
                             applyReminder()
                         }
@@ -108,7 +108,7 @@ struct SettingsView: View {
                                     },
                                     set: { d in
                                         let c = Calendar.current.dateComponents([.hour, .minute], from: d)
-                                        reminderHour = c.hour ?? 20
+                                        reminderHour = c.hour ?? 8
                                         reminderMinute = c.minute ?? 0
                                         applyReminder()
                                     }

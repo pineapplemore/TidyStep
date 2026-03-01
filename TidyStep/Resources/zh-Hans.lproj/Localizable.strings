@@ -9,6 +9,7 @@
 "stats_this_month" = "本月";
 "stats_sessions" = "次数";
 "stats_last_8_weeks" = "近 8 周";
+"stats_last_12_months" = "近 12 个月";
 
 /* Start */
 "start_title" = "准备整理了吗？";
@@ -53,6 +54,8 @@
 
 /* History */
 "history_empty" = "还没有记录。开始整理后这里会显示历史。";
+"history_subscribe_to_unlock" = "订阅后可查看全部记录。";
+"history_subscribe_hint" = "订阅后可解锁完整历史记录。";
 
 /* Settings */
 "settings_weight_section" = "卡路里精度";
@@ -73,12 +76,8 @@
 "weekday_fri" = "周五";
 "weekday_sat" = "周六";
 
-/* Notifications */
+/* Notifications (body 来自 EncouragementLibrary) */
 "notification_weekly_title" = "该整理房间啦";
-"notification_weekly_body" = "好的环境可以让你的一天心情舒畅。随手收拾一下，准备好就开始吧。";
-"notification_weekly_body_2" = "好的环境能让你事半功倍。该整理房间啦。";
-"notification_weekly_body_3" = "整洁的环境能让心情更明朗。准备好整理了吗？";
-"notification_weekly_body_4" = "小小整理，大大改变。动动手，房间焕然一新。";
 
 /* Onboarding */
 "onboarding_title" = "使用说明";

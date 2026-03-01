@@ -32,5 +32,14 @@ enum WidgetDataManager {
         def.set(reminderMinute, forKey: "widget_reminder_minute")
         def.set(reminderWeekday, forKey: "widget_reminder_weekday")
         def.set(reminderIntervalDays, forKey: "widget_reminder_interval_days")
+        let lang = AppLanguage.shared.resolvedLanguage
+        def.set(EncouragementLibrary.phraseForDate(lang: lang, date: Date()), forKey: "widget_encouragement_text")
+    }
+
+    /// 同步当前 App 语言与今日励志语到小组件（App 启动或切换语言时调用）
+    static func setAppLanguage(_ lang: String) {
+        guard let def = sharedDefaults else { return }
+        def.set(lang, forKey: "widget_app_language")
+        def.set(EncouragementLibrary.phraseForDate(lang: lang, date: Date()), forKey: "widget_encouragement_text")
     }
 }

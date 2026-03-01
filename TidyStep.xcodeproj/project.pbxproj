@@ -26,9 +26,11 @@
 		C117 /* WidgetDataManager.swift in Sources */ = {isa = PBXBuildFile; fileRef = F117 /* WidgetDataManager.swift */; };
 		C118 /* SubscriptionManager.swift in Sources */ = {isa = PBXBuildFile; fileRef = F118 /* SubscriptionManager.swift */; };
 		C119 /* PaywallView.swift in Sources */ = {isa = PBXBuildFile; fileRef = F119 /* PaywallView.swift */; };
+		C120 /* EncouragementLibrary.swift in Sources */ = {isa = PBXBuildFile; fileRef = F120 /* EncouragementLibrary.swift */; };
 		C201 /* Assets.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = F201 /* Assets.xcassets */; };
 		C202 /* Localizable.strings in Resources */ = {isa = PBXBuildFile; fileRef = VG01 /* Localizable.strings */; };
 		C301 /* TidyStepWidget.swift in Sources */ = {isa = PBXBuildFile; fileRef = F301 /* TidyStepWidget.swift */; };
+		C302W /* Assets.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = F304 /* Assets.xcassets */; };
 		C401 /* WidgetKit.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = F401 /* WidgetKit.framework */; };
 		C801 /* TidyStepWidget.appex in Embed Foundation Extensions */ = {isa = PBXBuildFile; fileRef = E002 /* TidyStepWidget.appex */; settings = {ATTRIBUTES = (RemoveHeadersOnCopy, ); }; };
 /* End PBXBuildFile section */
@@ -54,12 +56,14 @@
 		F117 /* WidgetDataManager.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = WidgetDataManager.swift; sourceTree = "<group>"; };
 		F118 /* SubscriptionManager.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SubscriptionManager.swift; sourceTree = "<group>"; };
 		F119 /* PaywallView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PaywallView.swift; sourceTree = "<group>"; };
+		F120 /* EncouragementLibrary.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = EncouragementLibrary.swift; sourceTree = "<group>"; };
 		F204 /* TidyStep.entitlements */ = {isa = PBXFileReference; lastKnownFileType = text.plist.entitlements; path = TidyStep.entitlements; sourceTree = "<group>"; };
 		F201 /* Assets.xcassets */ = {isa = PBXFileReference; lastKnownFileType = folder.assetcatalog; path = Assets.xcassets; sourceTree = "<group>"; };
 		E002 /* TidyStepWidget.appex */ = {isa = PBXFileReference; explicitFileType = "wrapper.app-extension"; includeInIndex = 0; path = TidyStepWidget.appex; sourceTree = BUILT_PRODUCTS_DIR; };
 		F301 /* TidyStepWidget.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = TidyStepWidget.swift; sourceTree = "<group>"; };
 		F302 /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
 		F303 /* TidyStepWidget.entitlements */ = {isa = PBXFileReference; lastKnownFileType = text.plist.entitlements; path = TidyStepWidget.entitlements; sourceTree = "<group>"; };
+		F304 /* Assets.xcassets */ = {isa = PBXFileReference; lastKnownFileType = folder.assetcatalog; path = Assets.xcassets; sourceTree = "<group>"; };
 		F401 /* WidgetKit.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = WidgetKit.framework; path = WidgetKit.framework; sourceTree = SDKROOT; };
 /* End PBXFileReference section */
 
@@ -90,6 +94,7 @@
 				F301 /* TidyStepWidget.swift */,
 				F302 /* Info.plist */,
 				F303 /* TidyStepWidget.entitlements */,
+				F304 /* Assets.xcassets */,
 			);
 			path = TidyStepWidget;
 			sourceTree = "<group>";
@@ -134,6 +139,7 @@
 				F114 /* AppLanguage.swift */,
 				F117 /* WidgetDataManager.swift */,
 				F118 /* SubscriptionManager.swift */,
+				F120 /* EncouragementLibrary.swift */,
 			);
 			path = Services;
 			sourceTree = "<group>";
@@ -322,6 +328,7 @@
 				C117 /* WidgetDataManager.swift in Sources */,
 				C118 /* SubscriptionManager.swift in Sources */,
 				C119 /* PaywallView.swift in Sources */,
+				C120 /* EncouragementLibrary.swift in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 			sourceTree = "<group>";
@@ -345,6 +352,7 @@
 			isa = PBXResourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				C302W /* Assets.xcassets in Resources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 			sourceTree = "<group>";

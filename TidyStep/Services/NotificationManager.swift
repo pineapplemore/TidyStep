@@ -19,22 +19,12 @@ final class NotificationManager {
         }
     }
 
-    /// Encouraging messages for the weekly reminder (picked at schedule time).
-    private static var weeklyBodyKeys: [String] {
-        [
-            "notification_weekly_body",
-            "notification_weekly_body_2",
-            "notification_weekly_body_3",
-            "notification_weekly_body_4",
-        ]
-    }
-
     func scheduleWeekly(weekday: Int, hour: Int, minute: Int) {
         removeAllReminders()
+        let lang = AppLanguage.shared.resolvedLanguage
         let content = UNMutableNotificationContent()
         content.title = AppLanguage.shared.string("notification_weekly_title")
-        let bodies = Self.weeklyBodyKeys.map { AppLanguage.shared.string($0) }
-        content.body = bodies.randomElement() ?? bodies[0]
+        content.body = EncouragementLibrary.phraseForDate(lang: lang, date: Date())
         content.sound = .default
         var dateComponents = DateComponents()
         dateComponents.weekday = weekday
@@ -48,14 +38,14 @@ final class NotificationManager {
     /// Schedule reminders every N days at the given time (up to 20 occurrences).
     func scheduleInterval(days: Int, hour: Int, minute: Int) {
         removeAllReminders()
-        let content = UNMutableNotificationContent()
-        content.title = AppLanguage.shared.string("notification_weekly_title")
-        let bodies = Self.weeklyBodyKeys.map { AppLanguage.shared.string($0) }
-        content.body = bodies.randomElement() ?? bodies[0]
-        content.sound = .default
+        let lang = AppLanguage.shared.resolvedLanguage
         let cal = Calendar.current
         var date = cal.nextDate(after: Date(), matching: DateComponents(hour: hour, minute: minute), matchingPolicy: .nextTime) ?? Date()
         for i in 0..<20 {
+            let content = UNMutableNotificationContent()
+            content.title = AppLanguage.shared.string("notification_weekly_title")
+            content.body = EncouragementLibrary.phraseForDate(lang: lang, date: date)
+            content.sound = .default
             let dc = cal.dateComponents([.year, .month, .day, .hour, .minute], from: date)
             let trigger = UNCalendarNotificationTrigger(dateMatching: dc, repeats: false)
             let request = UNNotificationRequest(identifier: "\(intervalIdentifierPrefix)\(i)", content: content, trigger: trigger)

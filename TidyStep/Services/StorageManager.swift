@@ -11,7 +11,9 @@ final class StorageManager: ObservableObject {
 
     private let defaults = UserDefaults.standard
     private let historyKey = "cleaning_session_history"
-    private let maxHistoryCount = 20
+    /// Retain sessions from the last 1 year only. Safety cap to avoid unbounded growth.
+    private let retentionYears = 1
+    private let maxHistoryCount = 500
 
     @Published var sessions: [CleaningSession] = []
     @Published var userWeightKg: Double? = nil
@@ -19,7 +21,7 @@ final class StorageManager: ObservableObject {
     /// 0 = weekly (use weekday); 3 = every 3 days; 5 = every 5 days.
     @Published var reminderIntervalDays: Int = 0
     @Published var reminderWeekday: Int = 0
-    @Published var reminderHour: Int = 20
+    @Published var reminderHour: Int = 8
     @Published var reminderMinute: Int = 0
 
     init() {
@@ -27,9 +29,15 @@ final class StorageManager: ObservableObject {
     }
 
     func loadAll() {
+        let oneYearAgo = Calendar.current.date(byAdding: .year, value: -retentionYears, to: Date()) ?? Date()
         if let data = defaults.data(forKey: historyKey),
            let decoded = try? JSONDecoder().decode([CleaningSession].self, from: data) {
-            sessions = decoded.sorted { $0.endDate > $1.endDate }
+            sessions = decoded
+                .filter { $0.endDate >= oneYearAgo }
+                .sorted { $0.endDate > $1.endDate }
+            if sessions.count > maxHistoryCount {
+                sessions = Array(sessions.prefix(maxHistoryCount))
+            }
         } else {
             sessions = []
         }
@@ -39,7 +47,7 @@ final class StorageManager: ObservableObject {
         if reminderWeekday == 0 && defaults.object(forKey: "reminder_weekday") == nil {
             reminderWeekday = 1 // Sunday = 1 in Calendar
         }
-        reminderHour = defaults.object(forKey: "reminder_hour") as? Int ?? 20
+        reminderHour = defaults.object(forKey: "reminder_hour") as? Int ?? 8
         reminderMinute = defaults.object(forKey: "reminder_minute") as? Int ?? 0
         reminderIntervalDays = defaults.object(forKey: "reminder_interval_days") as? Int ?? 0
         pushWidgetData()
@@ -70,6 +78,8 @@ final class StorageManager: ObservableObject {
 
     func addSession(_ session: CleaningSession) {
         sessions.insert(session, at: 0)
+        let oneYearAgo = Calendar.current.date(byAdding: .year, value: -retentionYears, to: Date()) ?? Date()
+        sessions = sessions.filter { $0.endDate >= oneYearAgo }
         if sessions.count > maxHistoryCount {
             sessions = Array(sessions.prefix(maxHistoryCount))
         }

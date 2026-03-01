@@ -16,7 +16,7 @@ struct PaywallView: View {
     @State private var selectedProduct: Product?
     @State private var isPurchasing = false
 
-    private let accent = Color(hex: 0x2563EB)
+    private let accent = Color(hex: 0x5EEAD4)
 
     var body: some View {
         ZStack {
@@ -139,7 +139,7 @@ struct PaywallView: View {
                     HStack {
                         if isPurchasing || subscription.isLoading {
                             ProgressView()
-                                .tint(.white)
+                                .tint(.black)
                         } else {
                             Text(appLanguage.string("paywall_start_trial"))
                                 .fontWeight(.semibold)
@@ -148,8 +148,8 @@ struct PaywallView: View {
                     .frame(maxWidth: .infinity)
                     .padding(.vertical, 16)
                     .background(accent)
-                    .foregroundStyle(.white)
-                    .clipShape(RoundedRectangle(cornerRadius: 14))
+                    .foregroundStyle(.black)
+                    .clipShape(Capsule())
                 }
                 .disabled(isPurchasing || subscription.isLoading)
             }

@@ -14,11 +14,23 @@ final class AppLanguage: ObservableObject {
     private let key = "app_language"
     private let supported = ["en", "zh-Hans"]
 
-    /// Current override: "en", "zh-Hans", or nil to follow system.
+    /// Current override: "en", "zh-Hans", or nil to use region-based default.
     @Published var currentLanguage: String? {
         didSet {
             UserDefaults.standard.set(currentLanguage, forKey: key)
+            WidgetDataManager.setAppLanguage(resolvedLanguage)
         }
+    }
+
+    /// 中国地区优先中文，其他地区优先英文。（用 countryCode，兼容 iOS 15）
+    private static func regionBasedDefault() -> String {
+        let code = (Locale.current as NSLocale).object(forKey: .countryCode) as? String
+        return code == "CN" ? "zh-Hans" : "en"
+    }
+
+    /// 当前实际使用的语言（用户设置或按地区默认）
+    var resolvedLanguage: String {
+        currentLanguage ?? Self.regionBasedDefault()
     }
 
     init() {
@@ -26,6 +38,7 @@ final class AppLanguage: ObservableObject {
         if let lang = currentLanguage, !supported.contains(lang) {
             currentLanguage = nil
         }
+        WidgetDataManager.setAppLanguage(resolvedLanguage)
     }
 
     /// Toggle between English and 简体中文.
@@ -39,11 +52,10 @@ final class AppLanguage: ObservableObject {
         currentLanguage = next
     }
 
-    /// Localized string for key; uses current override or system locale.
+    /// Localized string for key; uses current override or region-based default.
     func string(_ key: String) -> String {
-        let lang = currentLanguage ?? preferredSystemLanguage()
-        if let lang = lang,
-           let path = Bundle.main.path(forResource: lang, ofType: "lproj"),
+        let lang = resolvedLanguage
+        if let path = Bundle.main.path(forResource: lang, ofType: "lproj"),
            let bundle = Bundle(path: path) {
             return bundle.localizedString(forKey: key, value: key, table: "Localizable")
         }
@@ -51,8 +63,6 @@ final class AppLanguage: ObservableObject {
     }
 
     private func preferredSystemLanguage() -> String? {
-        let code = Locale.preferredLanguages.first ?? Locale.current.identifier
-        if code.hasPrefix("zh") { return "zh-Hans" }
-        return "en"
+        Self.regionBasedDefault()
     }
 }

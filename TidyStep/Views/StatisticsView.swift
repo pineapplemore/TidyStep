@@ -28,7 +28,7 @@ struct StatisticsView: View {
                                 title: appLanguage.string("stats_this_month"),
                                 summary: storage.statsThisMonth
                             )
-                            last8WeeksSection
+                            last12MonthsBarSection
                         }
                         .padding()
                     }
@@ -60,7 +60,7 @@ struct StatisticsView: View {
         VStack(spacing: 24) {
             Image(systemName: "chart.bar.fill")
                 .font(.system(size: 56))
-                .foregroundStyle(Color(hex: 0x2563EB))
+                .foregroundStyle(Color(hex: 0x5EEAD4))
             Text(appLanguage.string("paywall_stats_locked"))
                 .font(.headline)
                 .foregroundStyle(.white)
@@ -74,11 +74,11 @@ struct StatisticsView: View {
             } label: {
                 Text(appLanguage.string("paywall_unlock"))
                     .fontWeight(.semibold)
+                    .foregroundStyle(.black)
                     .frame(maxWidth: .infinity)
                     .padding(.vertical, 14)
-                    .background(Color(hex: 0x2563EB))
-                    .foregroundStyle(.white)
-                    .clipShape(RoundedRectangle(cornerRadius: 12))
+                    .background(Color(hex: 0x5EEAD4))
+                    .clipShape(Capsule())
             }
             .padding(.horizontal, 40)
         }
@@ -117,21 +117,22 @@ struct StatisticsView: View {
         .frame(maxWidth: .infinity)
     }
 
-    private var last8WeeksSection: some View {
+    /// 近 12 个月柱状图（与记录保留 1 年一致）
+    private var last12MonthsBarSection: some View {
         VStack(alignment: .leading, spacing: 12) {
-            Text(appLanguage.string("stats_last_8_weeks"))
+            Text(appLanguage.string("stats_last_12_months"))
                 .font(.headline)
                 .foregroundStyle(Color(hex: 0x9CA3AF))
-            let items = storage.last8WeeksBarItems
+            let items = storage.last12MonthsLineItems
             let maxCount = max(1, items.map(\.sessionCount).max() ?? 1)
-            HStack(alignment: .bottom, spacing: 6) {
+            HStack(alignment: .bottom, spacing: 4) {
                 ForEach(items) { item in
-                    VStack(spacing: 6) {
+                    VStack(spacing: 4) {
                         RoundedRectangle(cornerRadius: 4)
-                            .fill(Color(hex: 0x2563EB))
+                            .fill(Color(hex: 0x5EEAD4))
                             .frame(height: max(4, CGFloat(item.sessionCount) / CGFloat(maxCount) * 80))
-                        Text(shortWeekLabel(item.weekStart))
-                            .font(.system(size: 9, weight: .medium))
+                        Text(shortMonthLabel(item.monthStart))
+                            .font(.system(size: 8, weight: .medium))
                             .foregroundStyle(Color(hex: 0x6B7280))
                             .lineLimit(1)
                     }
@@ -155,6 +156,13 @@ struct StatisticsView: View {
     private func shortWeekLabel(_ date: Date) -> String {
         let f = DateFormatter()
         f.dateFormat = "M/d"
+        f.locale = Locale.current
+        return f.string(from: date)
+    }
+
+    private func shortMonthLabel(_ date: Date) -> String {
+        let f = DateFormatter()
+        f.dateFormat = "M"
         f.locale = Locale.current
         return f.string(from: date)
     }

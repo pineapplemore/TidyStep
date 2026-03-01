@@ -6,6 +6,7 @@
 //
 
 import SwiftUI
+import UIKit
 
 @main
 struct TidyStepApp: App {
@@ -14,9 +15,15 @@ struct TidyStepApp: App {
     @StateObject private var subscription = SubscriptionManager.shared
     @AppStorage("hasSeenOnboarding") private var hasSeenOnboarding = false
 
+    init() {
+        let mint = UIColor(red: 94/255, green: 234/255, blue: 212/255, alpha: 1)
+        UITabBar.appearance().tintColor = mint
+    }
+
     var body: some Scene {
         WindowGroup {
             RootView()
+                .tint(Color(hex: 0x5EEAD4))
                 .preferredColorScheme(.dark)
                 .environmentObject(storage)
                 .environmentObject(appLanguage)
