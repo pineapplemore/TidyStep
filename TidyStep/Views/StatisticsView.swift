@@ -10,6 +10,7 @@ struct StatisticsView: View {
     @EnvironmentObject var appLanguage: AppLanguage
     @EnvironmentObject var subscription: SubscriptionManager
     @State private var showPaywall = false
+    @State private var shareItem: ShareItem?
 
     var body: some View {
         NavigationView {
@@ -28,6 +29,10 @@ struct StatisticsView: View {
                                 title: appLanguage.string("stats_this_month"),
                                 summary: storage.statsThisMonth
                             )
+                            statsCard(
+                                title: appLanguage.string("stats_last_12_months"),
+                                summary: storage.statsLast12Months
+                            )
                             last12MonthsBarSection
                         }
                         .padding()
@@ -39,11 +44,25 @@ struct StatisticsView: View {
             .navigationTitle(appLanguage.string("tab_statistics"))
             .navigationBarTitleDisplayMode(.inline)
             .toolbar {
+                ToolbarItem(placement: .navigationBarLeading) {
+                    Button {
+                        shareItem = ShareItem(text: buildWeeklyShareText(sessions: storage.sessionsThisWeek, appLanguage: appLanguage))
+                    } label: {
+                        Image(systemName: "square.and.arrow.up")
+                            .font(.system(size: 17, weight: .regular))
+                            .frame(width: 44, height: 44, alignment: .center)
+                            .contentShape(Rectangle())
+                            .foregroundStyle(Color(hex: 0x9CA3AF))
+                    }
+                }
                 ToolbarItem(placement: .navigationBarTrailing) {
                     Button {
                         appLanguage.toggleLanguage()
                     } label: {
                         Image(systemName: "globe")
+                            .font(.system(size: 17, weight: .regular))
+                            .frame(width: 44, height: 44, alignment: .center)
+                            .contentShape(Rectangle())
                             .foregroundStyle(Color(hex: 0x9CA3AF))
                     }
                 }
@@ -52,6 +71,9 @@ struct StatisticsView: View {
                 PaywallView(onDismiss: { showPaywall = false })
                     .environmentObject(subscription)
                     .environmentObject(appLanguage)
+            }
+            .sheet(item: $shareItem) { item in
+                ShareSheet(items: [item.text])
             }
         }
     }
@@ -120,7 +142,7 @@ struct StatisticsView: View {
     /// 近 12 个月柱状图（与记录保留 1 年一致）
     private var last12MonthsBarSection: some View {
         VStack(alignment: .leading, spacing: 12) {
-            Text(appLanguage.string("stats_last_12_months"))
+            Text(appLanguage.string("stats_monthly_sessions"))
                 .font(.headline)
                 .foregroundStyle(Color(hex: 0x9CA3AF))
             let items = storage.last12MonthsLineItems

@@ -1,0 +1,59 @@
+//
+//  ShareSheet.swift
+//  TidyStep
+//
+//  Presents system share sheet (iOS 15 compatible).
+//
+
+import SwiftUI
+import UIKit
+
+/// Carries share text so sheet(item:) gets the correct content when presented (avoids empty text from state timing).
+struct ShareItem: Identifiable {
+    let id = UUID()
+    let text: String
+}
+
+/// Builds share text for "this week": header + one line per session (date – steps, cal). Never returns empty.
+func buildWeeklyShareText(sessions: [CleaningSession], appLanguage: AppLanguage) -> String {
+    let header = appLanguage.string("share_stats_week_header")
+    let lineTemplate = appLanguage.string("share_stats_line")
+    let emptyMsg = appLanguage.string("share_stats_empty")
+    let formatter = DateFormatter()
+    formatter.dateFormat = "M/d"
+    formatter.locale = Locale(identifier: appLanguage.resolvedLanguage == "zh-Hans" ? "zh_Hans" : "en_US")
+
+    let sorted = sessions.sorted { $0.endDate < $1.endDate }
+    if sorted.isEmpty {
+        return header + " " + emptyMsg
+    }
+    let lines = sorted.map { (s: CleaningSession) -> String in
+        let dateStr = formatter.string(from: s.endDate)
+        return String(format: lineTemplate, dateStr, s.steps, s.estimatedCalories)
+    }
+    return header + "\n" + lines.joined(separator: "\n")
+}
+
+struct ShareSheet: UIViewControllerRepresentable {
+    var items: [Any]
+
+    func makeUIViewController(context: Context) -> UIActivityViewController {
+        let safeItems = items.isEmpty ? ["TidyStep"] : items
+        let vc = UIActivityViewController(activityItems: safeItems, applicationActivities: nil)
+        // iPad: provide source for popover to avoid crash
+        if let popover = vc.popoverPresentationController {
+            let scenes = UIApplication.shared.connectedScenes
+            let windowScenes = scenes.compactMap { $0 as? UIWindowScene }
+            if let windowScene = windowScenes.first,
+               let window = windowScene.windows.first(where: { (w: UIWindow) -> Bool in w.isKeyWindow }),
+               let rootView = window.rootViewController?.view {
+                popover.sourceView = rootView
+                popover.sourceRect = CGRect(x: rootView.bounds.midX, y: rootView.bounds.midY, width: 0, height: 0)
+                popover.permittedArrowDirections = []
+            }
+        }
+        return vc
+    }
+
+    func updateUIViewController(_ uiViewController: UIActivityViewController, context: Context) {}
+}

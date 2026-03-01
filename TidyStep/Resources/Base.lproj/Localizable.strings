@@ -10,6 +10,15 @@
 "stats_sessions" = "Sessions";
 "stats_last_8_weeks" = "Last 8 weeks";
 "stats_last_12_months" = "Last 12 months";
+"stats_monthly_sessions" = "Sessions per month";
+
+/* Share */
+"share" = "Share";
+"share_session_text" = "I just cleaned with TidyStep! %d steps, %.0f cal.";
+"share_session_with_date" = "%@ – %d steps, %.0f cal";
+"share_stats_week_header" = "My TidyStep this week:";
+"share_stats_line" = "%@ – %d steps, %.0f cal";
+"share_stats_empty" = "No sessions yet.";
 
 /* Start */
 "start_title" = "Ready to clean?";

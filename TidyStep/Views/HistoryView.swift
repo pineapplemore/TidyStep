@@ -10,6 +10,7 @@ struct HistoryView: View {
     @EnvironmentObject var appLanguage: AppLanguage
     @EnvironmentObject var subscription: SubscriptionManager
     @State private var showPaywall = false
+    @State private var shareItem: ShareItem?
 
     /// 非订阅时只显示最新一条；订阅时显示全部。
     private var displayedSessions: [CleaningSession] {
@@ -89,14 +90,31 @@ struct HistoryView: View {
             .navigationTitle(appLanguage.string("tab_history"))
             .navigationBarTitleDisplayMode(.inline)
             .toolbar {
+                ToolbarItem(placement: .navigationBarLeading) {
+                    Button {
+                        shareItem = ShareItem(text: buildWeeklyShareText(sessions: storage.sessionsThisWeek, appLanguage: appLanguage))
+                    } label: {
+                        Image(systemName: "square.and.arrow.up")
+                            .font(.system(size: 17, weight: .regular))
+                            .frame(width: 44, height: 44, alignment: .center)
+                            .contentShape(Rectangle())
+                            .foregroundStyle(Color(hex: 0x9CA3AF))
+                    }
+                }
                 ToolbarItem(placement: .navigationBarTrailing) {
                     Button {
                         appLanguage.toggleLanguage()
                     } label: {
                         Image(systemName: "globe")
+                            .font(.system(size: 17, weight: .regular))
+                            .frame(width: 44, height: 44, alignment: .center)
+                            .contentShape(Rectangle())
                             .foregroundStyle(Color(hex: 0x9CA3AF))
                     }
                 }
+            }
+            .sheet(item: $shareItem) { item in
+                ShareSheet(items: [item.text])
             }
             .sheet(isPresented: $showPaywall) {
                 PaywallView(onDismiss: { showPaywall = false })

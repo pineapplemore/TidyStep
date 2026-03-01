@@ -27,6 +27,7 @@
 		C118 /* SubscriptionManager.swift in Sources */ = {isa = PBXBuildFile; fileRef = F118 /* SubscriptionManager.swift */; };
 		C119 /* PaywallView.swift in Sources */ = {isa = PBXBuildFile; fileRef = F119 /* PaywallView.swift */; };
 		C120 /* EncouragementLibrary.swift in Sources */ = {isa = PBXBuildFile; fileRef = F120 /* EncouragementLibrary.swift */; };
+		C121 /* ShareSheet.swift in Sources */ = {isa = PBXBuildFile; fileRef = F121 /* ShareSheet.swift */; };
 		C201 /* Assets.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = F201 /* Assets.xcassets */; };
 		C202 /* Localizable.strings in Resources */ = {isa = PBXBuildFile; fileRef = VG01 /* Localizable.strings */; };
 		C301 /* TidyStepWidget.swift in Sources */ = {isa = PBXBuildFile; fileRef = F301 /* TidyStepWidget.swift */; };
@@ -50,6 +51,7 @@
 		F111 /* NotificationManager.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = NotificationManager.swift; sourceTree = "<group>"; };
 		F112 /* SessionManager.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SessionManager.swift; sourceTree = "<group>"; };
 		F113 /* Color+Hex.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "Color+Hex.swift"; sourceTree = "<group>"; };
+		F121 /* ShareSheet.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ShareSheet.swift; sourceTree = "<group>"; };
 		F114 /* AppLanguage.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AppLanguage.swift; sourceTree = "<group>"; };
 		F115 /* StatsSummary.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = StatsSummary.swift; sourceTree = "<group>"; };
 		F116 /* StatisticsView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = StatisticsView.swift; sourceTree = "<group>"; };
@@ -164,6 +166,7 @@
 			isa = PBXGroup;
 			children = (
 				F113 /* Color+Hex.swift */,
+				F121 /* ShareSheet.swift */,
 			);
 			path = Helpers;
 			sourceTree = "<group>";
@@ -329,6 +332,7 @@
 				C118 /* SubscriptionManager.swift in Sources */,
 				C119 /* PaywallView.swift in Sources */,
 				C120 /* EncouragementLibrary.swift in Sources */,
+				C121 /* ShareSheet.swift in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 			sourceTree = "<group>";

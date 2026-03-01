@@ -11,6 +11,7 @@ struct StartView: View {
     @StateObject private var session = SessionManager.shared
     @State private var showWeightSheet = false
     @State private var weightText = ""
+    @State private var shareItem: ShareItem?
 
     var body: some View {
         NavigationView {
@@ -75,14 +76,31 @@ struct StartView: View {
             .navigationTitle(appLanguage.string("tab_start"))
             .navigationBarTitleDisplayMode(.inline)
             .toolbar {
+                ToolbarItem(placement: .navigationBarLeading) {
+                    Button {
+                        shareItem = ShareItem(text: buildWeeklyShareText(sessions: storage.sessionsThisWeek, appLanguage: appLanguage))
+                    } label: {
+                        Image(systemName: "square.and.arrow.up")
+                            .font(.system(size: 17, weight: .regular))
+                            .frame(width: 44, height: 44, alignment: .center)
+                            .contentShape(Rectangle())
+                            .foregroundStyle(Color(hex: 0x9CA3AF))
+                    }
+                }
                 ToolbarItem(placement: .navigationBarTrailing) {
                     Button {
                         appLanguage.toggleLanguage()
                     } label: {
                         Image(systemName: "globe")
+                            .font(.system(size: 17, weight: .regular))
+                            .frame(width: 44, height: 44, alignment: .center)
+                            .contentShape(Rectangle())
                             .foregroundStyle(Color(hex: 0x9CA3AF))
                     }
                 }
+            }
+            .sheet(item: $shareItem) { item in
+                ShareSheet(items: [item.text])
             }
             .sheet(isPresented: $showWeightSheet) {
                 WeightInputSheet(

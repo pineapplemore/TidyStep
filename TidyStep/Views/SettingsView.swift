@@ -18,6 +18,7 @@ struct SettingsView: View {
     @State private var reminderHour: Int = 8
     @State private var reminderMinute: Int = 0
     @State private var notificationPermissionGranted: Bool? = nil
+    @State private var shareItem: ShareItem?
 
     private let reminderIntervalOptions: [(Int, String)] = [
         (0, "reminder_weekly"),
@@ -170,14 +171,31 @@ struct SettingsView: View {
             .navigationTitle(appLanguage.string("tab_settings"))
             .navigationBarTitleDisplayMode(.inline)
             .toolbar {
+                ToolbarItem(placement: .navigationBarLeading) {
+                    Button {
+                        shareItem = ShareItem(text: buildWeeklyShareText(sessions: storage.sessionsThisWeek, appLanguage: appLanguage))
+                    } label: {
+                        Image(systemName: "square.and.arrow.up")
+                            .font(.system(size: 17, weight: .regular))
+                            .frame(width: 44, height: 44, alignment: .center)
+                            .contentShape(Rectangle())
+                            .foregroundStyle(Color(hex: 0x9CA3AF))
+                    }
+                }
                 ToolbarItem(placement: .navigationBarTrailing) {
                     Button {
                         appLanguage.toggleLanguage()
                     } label: {
                         Image(systemName: "globe")
+                            .font(.system(size: 17, weight: .regular))
+                            .frame(width: 44, height: 44, alignment: .center)
+                            .contentShape(Rectangle())
                             .foregroundStyle(Color(hex: 0x9CA3AF))
                     }
                 }
+            }
+            .sheet(item: $shareItem) { item in
+                ShareSheet(items: [item.text])
             }
             .onAppear {
                 reminderEnabled = storage.reminderEnabled

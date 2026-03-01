@@ -10,6 +10,15 @@
 "stats_sessions" = "次数";
 "stats_last_8_weeks" = "近 8 周";
 "stats_last_12_months" = "近 12 个月";
+"stats_monthly_sessions" = "每月整理次数";
+
+/* Share */
+"share" = "分享";
+"share_session_text" = "刚用 TidyStep 整理完！%d 步，%.0f 卡。";
+"share_session_with_date" = "%@ – %d 步，%.0f 卡";
+"share_stats_week_header" = "本周 TidyStep：";
+"share_stats_line" = "%@ – %d 步，%.0f 卡";
+"share_stats_empty" = "暂无记录。";
 
 /* Start */
 "start_title" = "准备整理了吗？";

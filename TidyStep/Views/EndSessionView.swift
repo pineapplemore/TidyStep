@@ -10,6 +10,7 @@ struct EndSessionView: View {
     let onDismiss: () -> Void
 
     @EnvironmentObject var appLanguage: AppLanguage
+    @State private var shareItem: ShareItem?
 
     var body: some View {
         ZStack {
@@ -37,19 +38,41 @@ struct EndSessionView: View {
                 .clipShape(RoundedRectangle(cornerRadius: 16))
                 .padding(.horizontal, 24)
 
-                Button {
-                    onDismiss()
-                } label: {
-                    Text(appLanguage.string("end_done"))
-                        .font(.headline)
-                        .foregroundStyle(.black)
-                        .frame(maxWidth: .infinity)
-                        .padding(.vertical, 16)
-                        .background(Color(hex: 0x5EEAD4))
-                        .clipShape(Capsule())
+                HStack(spacing: 12) {
+                    Button {
+                        let template = appLanguage.string("share_session_with_date")
+                        let formatter = DateFormatter()
+                        formatter.dateFormat = "M/d"
+                        formatter.locale = Locale(identifier: appLanguage.resolvedLanguage == "zh-Hans" ? "zh_Hans" : "en_US")
+                        let dateStr = formatter.string(from: session.endDate)
+                        let text = String(format: template, dateStr, session.steps, session.estimatedCalories)
+                        shareItem = ShareItem(text: text)
+                    } label: {
+                        Image(systemName: "square.and.arrow.up")
+                            .font(.headline)
+                            .foregroundStyle(Color(hex: 0x5EEAD4))
+                            .frame(maxWidth: .infinity)
+                            .padding(.vertical, 16)
+                            .background(Color(hex: 0x1A1A1E))
+                            .clipShape(Capsule())
+                    }
+                    Button {
+                        onDismiss()
+                    } label: {
+                        Text(appLanguage.string("end_done"))
+                            .font(.headline)
+                            .foregroundStyle(.black)
+                            .frame(maxWidth: .infinity)
+                            .padding(.vertical, 16)
+                            .background(Color(hex: 0x5EEAD4))
+                            .clipShape(Capsule())
+                    }
                 }
                 .padding(.horizontal, 32)
             }
+        }
+        .sheet(item: $shareItem) { item in
+            ShareSheet(items: [item.text])
         }
         .interactiveDismissDisabled()
     }

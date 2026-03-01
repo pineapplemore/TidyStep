@@ -63,6 +63,25 @@ extension StorageManager {
         )
     }
 
+    /// Sessions that ended within the last 12 calendar months (same window as last12MonthsLineItems).
+    var sessionsLast12Months: [CleaningSession] {
+        let cal = Calendar.current
+        guard let thisMonthStart = cal.dateInterval(of: .month, for: Date())?.start,
+              let twelveMonthsAgo = cal.date(byAdding: .month, value: -12, to: thisMonthStart) else { return [] }
+        return sessions.filter { $0.endDate >= twelveMonthsAgo }
+    }
+
+    /// Last 12 months aggregate: total sessions, duration, steps, calories.
+    var statsLast12Months: StatsSummary {
+        let list = sessionsLast12Months
+        return StatsSummary(
+            count: list.count,
+            totalDurationSeconds: list.reduce(0) { $0 + $1.durationSeconds },
+            totalSteps: list.reduce(0) { $0 + $1.steps },
+            totalCalories: list.reduce(0) { $0 + $1.estimatedCalories }
+        )
+    }
+
     /// Last 8 weeks: week start date and session count for chart.
     var last8WeeksBarItems: [WeekBarItem] {
         let cal = Calendar.current
