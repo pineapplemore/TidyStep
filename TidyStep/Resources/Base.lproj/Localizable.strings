@@ -9,15 +9,39 @@
 "stats_this_month" = "This month";
 "stats_sessions" = "Sessions";
 "stats_last_8_weeks" = "Last 8 weeks";
+"stats_last_7_days" = "Last 7 days";
+"stats_last_14_days" = "Last 14 days";
+"stats_last_30_days" = "Last 30 days";
+"stats_last_60_days" = "Last 60 days";
+"stats_last_90_days" = "Last 90 days";
+"stats_last_120_days" = "Last 120 days";
+"stats_last_150_days" = "Last 150 days";
+"stats_last_180_days" = "Last 180 days";
+"stats_last_210_days" = "Last 210 days";
+"stats_last_240_days" = "Last 240 days";
+"stats_last_270_days" = "Last 270 days";
+"stats_last_300_days" = "Last 300 days";
+"stats_last_330_days" = "Last 330 days";
+"stats_last_360_days" = "Last 360 days";
+"stats_last_3_months" = "Last 3 months";
+"stats_last_6_months" = "Last 6 months";
 "stats_last_12_months" = "Last 12 months";
+"stats_summary_period" = "Summary period";
+"stats_chart_period" = "Chart";
 "stats_monthly_sessions" = "Sessions per month";
+"stats_weekly_sessions" = "Sessions per week";
+"stats_chart_preview" = "Preview (2 days)";
+"stats_today" = "Today";
+"stats_yesterday" = "Yesterday";
+"stats_select_date" = "Select date";
+"stats_view_day" = "View";
 
 /* Share */
 "share" = "Share";
 "share_session_text" = "I just cleaned with TidyStep! %d steps, %.0f cal.";
-"share_session_with_date" = "%@ – %d steps, %.0f cal";
+"share_session_with_date" = "TidyStep: %@ – %d steps, %.0f cal";
 "share_stats_week_header" = "My TidyStep this week:";
-"share_stats_line" = "%@ – %d steps, %.0f cal";
+"share_stats_line" = "TidyStep: %@ – %d steps, %.0f cal";
 "share_stats_empty" = "No sessions yet.";
 
 /* Start */
@@ -77,6 +101,7 @@
 "reminder_weekday" = "Day";
 "reminder_time" = "Time";
 "reminder_permission_denied" = "Enable notifications in Settings to get reminders.";
+"settings_open_system_settings" = "Open Settings";
 "weekday_sun" = "Sunday";
 "weekday_mon" = "Monday";
 "weekday_tue" = "Tuesday";
@@ -111,4 +136,4 @@
 "paywall_manage" = "Manage subscription";
 "paywall_unlock" = "Unlock";
 "paywall_stats_locked" = "Statistics are part of Premium";
-"paywall_stats_locked_subtitle" = "Subscribe to see weekly & monthly summaries and the last 8 weeks chart.";
+"paywall_stats_locked_subtitle" = "Subscribe to see weekly & monthly summaries and the 1-year chart.";

@@ -50,7 +50,7 @@ struct StartView: View {
                                     Text(appLanguage.string("start_add_weight"))
                                 }
                                 .font(.subheadline)
-                                .foregroundStyle(Color(hex: 0x60A5FA))
+                                .foregroundStyle(Color(hex: 0x5EEAD4))
                             }
                             .padding(.top, 8)
                         }
@@ -77,9 +77,10 @@ struct StartView: View {
             .navigationBarTitleDisplayMode(.inline)
             .toolbar {
                 ToolbarItem(placement: .navigationBarLeading) {
-                    Button {
-                        shareItem = ShareItem(text: buildWeeklyShareText(sessions: storage.sessionsThisWeek, appLanguage: appLanguage))
-                    } label: {
+                        Button {
+                            let sessions = storage.sessionsThisWeek.isEmpty ? storage.sessionsLast2Days : storage.sessionsThisWeek
+                            shareItem = ShareItem(text: buildWeeklyShareText(sessions: sessions, appLanguage: appLanguage))
+                        } label: {
                         Image(systemName: "square.and.arrow.up")
                             .font(.system(size: 17, weight: .regular))
                             .frame(width: 44, height: 44, alignment: .center)
@@ -100,7 +101,7 @@ struct StartView: View {
                 }
             }
             .sheet(item: $shareItem) { item in
-                ShareSheet(items: [item.text])
+                ShareSheet(items: [item.text.isEmpty ? (appLanguage.string("share_stats_week_header") + " " + appLanguage.string("share_stats_empty")) : item.text])
             }
             .sheet(isPresented: $showWeightSheet) {
                 WeightInputSheet(

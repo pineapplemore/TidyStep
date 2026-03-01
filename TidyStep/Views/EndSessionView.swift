@@ -72,7 +72,10 @@ struct EndSessionView: View {
             }
         }
         .sheet(item: $shareItem) { item in
-            ShareSheet(items: [item.text])
+            let text = item.text.trimmingCharacters(in: .whitespacesAndNewlines).isEmpty
+                ? "TidyStep"
+                : item.text
+            ShareSheet(items: [text])
         }
         .interactiveDismissDisabled()
     }

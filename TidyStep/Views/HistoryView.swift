@@ -14,7 +14,7 @@ struct HistoryView: View {
 
     /// 非订阅时只显示最新一条；订阅时显示全部。
     private var displayedSessions: [CleaningSession] {
-        if subscription.isSubscribed {
+        if subscription.hasAccess {
             return storage.sessions
         }
         return Array(storage.sessions.prefix(1))
@@ -22,7 +22,7 @@ struct HistoryView: View {
 
     /// 未订阅且存在多条记录时，提示用户订阅可查看全部
     private var showSubscribeHint: Bool {
-        !subscription.isSubscribed && storage.sessions.count > 1
+        !subscription.hasAccess && storage.sessions.count > 1
     }
 
     var body: some View {
@@ -32,13 +32,26 @@ struct HistoryView: View {
                     .ignoresSafeArea()
 
                 if displayedSessions.isEmpty {
-                    VStack(spacing: 16) {
+                    VStack(spacing: 24) {
                         Image(systemName: "clock.arrow.circlepath")
                             .font(.system(size: 48))
                             .foregroundStyle(Color(hex: 0x6B7280))
                         Text(appLanguage.string("history_empty"))
                             .font(.subheadline)
                             .foregroundStyle(Color(hex: 0x9CA3AF))
+                            .multilineTextAlignment(.center)
+                        Button {
+                            showPaywall = true
+                        } label: {
+                            Text(appLanguage.string("paywall_unlock"))
+                                .fontWeight(.semibold)
+                                .foregroundStyle(.black)
+                                .frame(maxWidth: .infinity)
+                                .padding(.vertical, 12)
+                                .background(Color(hex: 0x5EEAD4))
+                                .clipShape(Capsule())
+                        }
+                        .padding(.horizontal, 40)
                     }
                     .frame(maxWidth: .infinity, maxHeight: .infinity)
                 } else {
@@ -75,7 +88,7 @@ struct HistoryView: View {
                                 .padding(.vertical, 8)
                                 .listRowBackground(Color(hex: 0x1A1A1E))
                             }
-                        } else if !subscription.isSubscribed && !storage.sessions.isEmpty {
+                        } else if !subscription.hasAccess && !storage.sessions.isEmpty {
                             Section {
                                 Text(appLanguage.string("history_subscribe_hint"))
                                     .font(.caption)
@@ -92,7 +105,8 @@ struct HistoryView: View {
             .toolbar {
                 ToolbarItem(placement: .navigationBarLeading) {
                     Button {
-                        shareItem = ShareItem(text: buildWeeklyShareText(sessions: storage.sessionsThisWeek, appLanguage: appLanguage))
+                        let sessions = storage.sessionsThisWeek.isEmpty ? storage.sessionsLast2Days : storage.sessionsThisWeek
+                        shareItem = ShareItem(text: buildWeeklyShareText(sessions: sessions, appLanguage: appLanguage))
                     } label: {
                         Image(systemName: "square.and.arrow.up")
                             .font(.system(size: 17, weight: .regular))
@@ -114,7 +128,7 @@ struct HistoryView: View {
                 }
             }
             .sheet(item: $shareItem) { item in
-                ShareSheet(items: [item.text])
+                ShareSheet(items: [item.text.isEmpty ? (appLanguage.string("share_stats_week_header") + " " + appLanguage.string("share_stats_empty")) : item.text])
             }
             .sheet(isPresented: $showPaywall) {
                 PaywallView(onDismiss: { showPaywall = false })

@@ -18,11 +18,13 @@ struct CleaningSession: Identifiable, Codable, Equatable {
     var durationMinutes: Int { Int(durationSeconds / 60) }
 
     /// Estimated calories (simplified: steps-based + duration, optional weight).
+    /// Returns 0 when there is no duration and no steps; otherwise floor of formula to avoid showing 1 for tiny activity.
     var estimatedCalories: Double {
+        guard steps > 0 || durationSeconds > 0 else { return 0 }
         let w = weightKg ?? 60
         let stepsCal = Double(steps) * 0.04
         let durationCal = (durationSeconds / 3600) * (w * 2.5)
-        return stepsCal + durationCal
+        return max(0, floor(stepsCal + durationCal))
     }
 
     init(id: UUID = UUID(), startDate: Date, endDate: Date, steps: Int, weightKg: Double? = nil, totalPausedSeconds: TimeInterval = 0) {

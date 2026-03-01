@@ -117,20 +117,64 @@ struct SettingsView: View {
                                 displayedComponents: .hourAndMinute
                             )
                             .foregroundStyle(.white)
+                            if notificationPermissionGranted == false {
+                                Button {
+                                    if let url = URL(string: UIApplication.openSettingsURLString) {
+                                        UIApplication.shared.open(url)
+                                    }
+                                } label: {
+                                    HStack {
+                                        Text(appLanguage.string("settings_open_system_settings"))
+                                            .foregroundStyle(Color(hex: 0x5EEAD4))
+                                        Spacer()
+                                        Image(systemName: "arrow.up.forward")
+                                            .font(.caption)
+                                            .foregroundStyle(Color(hex: 0x5EEAD4))
+                                    }
+                                }
+                                .listRowBackground(Color(hex: 0x1A1A1E))
+                            }
+                            Button {
+                                if let url = URL(string: UIApplication.openSettingsURLString) {
+                                    UIApplication.shared.open(url)
+                                }
+                            } label: {
+                                HStack {
+                                    Text(appLanguage.string("settings_open_system_settings"))
+                                        .foregroundStyle(Color(hex: 0x5EEAD4))
+                                    Spacer()
+                                    Image(systemName: "gear")
+                                        .font(.body)
+                                        .foregroundStyle(Color(hex: 0x5EEAD4))
+                                }
+                            }
+                            .listRowBackground(Color(hex: 0x1A1A1E))
                         }
                     } header: {
                         Text(appLanguage.string("settings_reminder_section"))
                             .foregroundStyle(Color(hex: 0x9CA3AF))
                     } footer: {
                         if notificationPermissionGranted == false {
-                            Text(appLanguage.string("reminder_permission_denied"))
-                                .foregroundStyle(Color(hex: 0xEF4444))
+                            VStack(alignment: .leading, spacing: 8) {
+                                Text(appLanguage.string("reminder_permission_denied"))
+                                    .foregroundStyle(Color(hex: 0x5EEAD4))
+                                Button {
+                                    if let url = URL(string: UIApplication.openSettingsURLString) {
+                                        UIApplication.shared.open(url)
+                                    }
+                                } label: {
+                                    Text(appLanguage.string("settings_open_system_settings"))
+                                        .font(.subheadline)
+                                        .foregroundStyle(Color(hex: 0x5EEAD4))
+                                }
+                            }
+                            .padding(.top, 8)
                         }
                     }
                     .listRowBackground(Color(hex: 0x1A1A1E))
 
                     Section {
-                        if subscription.isSubscribed {
+                        if subscription.hasAccess {
                             HStack {
                                 Text(appLanguage.string("paywall_subscribed"))
                                     .foregroundStyle(.white)
@@ -144,7 +188,7 @@ struct SettingsView: View {
                             showPaywall = true
                         } label: {
                             HStack {
-                                Text(subscription.isSubscribed ? appLanguage.string("paywall_manage") : appLanguage.string("paywall_unlock"))
+                                Text(subscription.hasAccess ? appLanguage.string("paywall_manage") : appLanguage.string("paywall_unlock"))
                                     .foregroundStyle(.white)
                                 Spacer()
                                 Image(systemName: "chevron.right")
@@ -166,15 +210,33 @@ struct SettingsView: View {
                             .foregroundStyle(Color(hex: 0x9CA3AF))
                     }
                     .listRowBackground(Color(hex: 0x1A1A1E))
+
+                    #if DEBUG
+                    Section {
+                        Toggle(isOn: Binding(
+                            get: { subscription.debugForceSubscribed },
+                            set: { subscription.debugForceSubscribed = $0 }
+                        )) {
+                            Text("模拟已解锁")
+                                .foregroundStyle(.white)
+                        }
+                        .tint(Color(hex: 0x5EEAD4))
+                    } header: {
+                        Text("调试")
+                            .foregroundStyle(Color(hex: 0x9CA3AF))
+                    }
+                    .listRowBackground(Color(hex: 0x1A1A1E))
+                    #endif
                 }
             }
             .navigationTitle(appLanguage.string("tab_settings"))
             .navigationBarTitleDisplayMode(.inline)
             .toolbar {
                 ToolbarItem(placement: .navigationBarLeading) {
-                    Button {
-                        shareItem = ShareItem(text: buildWeeklyShareText(sessions: storage.sessionsThisWeek, appLanguage: appLanguage))
-                    } label: {
+                        Button {
+                            let sessions = storage.sessionsThisWeek.isEmpty ? storage.sessionsLast2Days : storage.sessionsThisWeek
+                            shareItem = ShareItem(text: buildWeeklyShareText(sessions: sessions, appLanguage: appLanguage))
+                        } label: {
                         Image(systemName: "square.and.arrow.up")
                             .font(.system(size: 17, weight: .regular))
                             .frame(width: 44, height: 44, alignment: .center)
@@ -195,7 +257,7 @@ struct SettingsView: View {
                 }
             }
             .sheet(item: $shareItem) { item in
-                ShareSheet(items: [item.text])
+                ShareSheet(items: [item.text.isEmpty ? (appLanguage.string("share_stats_week_header") + " " + appLanguage.string("share_stats_empty")) : item.text])
             }
             .onAppear {
                 reminderEnabled = storage.reminderEnabled

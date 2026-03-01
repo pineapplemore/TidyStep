@@ -12,7 +12,7 @@ struct OnboardingView: View {
 
     var body: some View {
         ZStack {
-            Color.black.opacity(0.85)
+            Color(hex: 0x0D0D0F)
                 .ignoresSafeArea()
 
             VStack(spacing: 24) {

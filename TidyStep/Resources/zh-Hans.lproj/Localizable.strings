@@ -9,15 +9,39 @@
 "stats_this_month" = "本月";
 "stats_sessions" = "次数";
 "stats_last_8_weeks" = "近 8 周";
+"stats_last_7_days" = "近 7 天";
+"stats_last_14_days" = "近 14 天";
+"stats_last_30_days" = "近 30 天";
+"stats_last_60_days" = "近 60 天";
+"stats_last_90_days" = "近 90 天";
+"stats_last_120_days" = "近 120 天";
+"stats_last_150_days" = "近 150 天";
+"stats_last_180_days" = "近 180 天";
+"stats_last_210_days" = "近 210 天";
+"stats_last_240_days" = "近 240 天";
+"stats_last_270_days" = "近 270 天";
+"stats_last_300_days" = "近 300 天";
+"stats_last_330_days" = "近 330 天";
+"stats_last_360_days" = "近 360 天";
+"stats_last_3_months" = "近 3 个月";
+"stats_last_6_months" = "近 6 个月";
 "stats_last_12_months" = "近 12 个月";
+"stats_summary_period" = "汇总周期";
+"stats_chart_period" = "图表";
 "stats_monthly_sessions" = "每月整理次数";
+"stats_weekly_sessions" = "每周整理次数";
+"stats_chart_preview" = "预览（近 2 天）";
+"stats_today" = "今天";
+"stats_yesterday" = "昨天";
+"stats_select_date" = "选择日期";
+"stats_view_day" = "查看";
 
 /* Share */
 "share" = "分享";
 "share_session_text" = "刚用 TidyStep 整理完！%d 步，%.0f 卡。";
-"share_session_with_date" = "%@ – %d 步，%.0f 卡";
+"share_session_with_date" = "TidyStep：%@ – %d 步，%.0f 卡";
 "share_stats_week_header" = "本周 TidyStep：";
-"share_stats_line" = "%@ – %d 步，%.0f 卡";
+"share_stats_line" = "TidyStep：%@ – %d 步，%.0f 卡";
 "share_stats_empty" = "暂无记录。";
 
 /* Start */
@@ -77,6 +101,7 @@
 "reminder_weekday" = "星期";
 "reminder_time" = "时间";
 "reminder_permission_denied" = "请在「设置」中允许通知，以接收提醒。";
+"settings_open_system_settings" = "打开设置";
 "weekday_sun" = "周日";
 "weekday_mon" = "周一";
 "weekday_tue" = "周二";
@@ -111,4 +136,4 @@
 "paywall_manage" = "管理订阅";
 "paywall_unlock" = "解锁";
 "paywall_stats_locked" = "统计为高级版功能";
-"paywall_stats_locked_subtitle" = "订阅后可查看本周/本月汇总与近 8 周图表。";
+"paywall_stats_locked_subtitle" = "订阅后可查看本周/本月汇总与近 1 年图表。";
