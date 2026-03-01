@@ -211,22 +211,23 @@ struct SettingsView: View {
                     }
                     .listRowBackground(Color(hex: 0x1A1A1E))
 
-                    #if DEBUG
-                    Section {
-                        Toggle(isOn: Binding(
-                            get: { subscription.debugForceSubscribed },
-                            set: { subscription.debugForceSubscribed = $0 }
-                        )) {
-                            Text("模拟已解锁")
-                                .foregroundStyle(.white)
-                        }
-                        .tint(Color(hex: 0x5EEAD4))
-                    } header: {
-                        Text("调试")
-                            .foregroundStyle(Color(hex: 0x9CA3AF))
-                    }
-                    .listRowBackground(Color(hex: 0x1A1A1E))
-                    #endif
+                    // 调试时可恢复：取消下方 #if DEBUG ... #endif 注释，并在 SubscriptionManager 恢复 debugForceSubscribed 与 hasAccess 中的 || debugForceSubscribed
+                    // #if DEBUG
+                    // Section {
+                    //     Toggle(isOn: Binding(
+                    //         get: { subscription.debugForceSubscribed },
+                    //         set: { subscription.debugForceSubscribed = $0 }
+                    //     )) {
+                    //         Text("模拟已解锁")
+                    //             .foregroundStyle(.white)
+                    //     }
+                    //     .tint(Color(hex: 0x5EEAD4))
+                    // } header: {
+                    //     Text("调试")
+                    //         .foregroundStyle(Color(hex: 0x9CA3AF))
+                    // }
+                    // .listRowBackground(Color(hex: 0x1A1A1E))
+                    // #endif
                 }
             }
             .navigationTitle(appLanguage.string("tab_settings"))

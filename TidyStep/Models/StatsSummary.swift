@@ -25,11 +25,14 @@ struct MonthChartItem: Identifiable {
     let sessionCount: Int
 }
 
-/// One day for the 2-day preview chart (free users).
+/// One day for chart: session count + duration, steps, calories (for metric selector).
 struct DayChartItem: Identifiable {
     let id: String
     let dayStart: Date
     let sessionCount: Int
+    let totalDurationSeconds: TimeInterval
+    let totalSteps: Int
+    let totalCalories: Double
 }
 
 extension StorageManager {
@@ -196,7 +199,7 @@ extension StorageManager {
         )
     }
 
-    /// Last N days: one bar per day (oldest to newest). 近7天 = 7 bars, 近30天 = 30 bars, etc.
+    /// Last N days: one bar per day (oldest to newest), with count + duration/steps/calories for metric selector.
     func lastDaysChartItems(days: Int) -> [DayChartItem] {
         let cal = Calendar.current
         var items: [DayChartItem] = []
@@ -205,8 +208,19 @@ extension StorageManager {
             guard let dayDate = cal.date(byAdding: .day, value: -offset, to: now) else { continue }
             let dayStart = cal.startOfDay(for: dayDate)
             let dayEnd = cal.date(byAdding: .day, value: 1, to: dayStart) ?? dayStart
-            let count = sessions.filter { $0.endDate >= dayStart && $0.endDate < dayEnd }.count
-            items.append(DayChartItem(id: "d\(days)_\(offset)", dayStart: dayStart, sessionCount: count))
+            let list = sessions.filter { $0.endDate >= dayStart && $0.endDate < dayEnd }
+            let count = list.count
+            let duration = list.reduce(0) { $0 + $1.durationSeconds }
+            let steps = list.reduce(0) { $0 + $1.steps }
+            let calories = list.reduce(0) { $0 + $1.estimatedCalories }
+            items.append(DayChartItem(
+                id: "d\(days)_\(offset)",
+                dayStart: dayStart,
+                sessionCount: count,
+                totalDurationSeconds: duration,
+                totalSteps: steps,
+                totalCalories: calories
+            ))
         }
         return items
     }
@@ -220,8 +234,19 @@ extension StorageManager {
             guard let dayDate = cal.date(byAdding: .day, value: -offset, to: now) else { continue }
             let dayStart = cal.startOfDay(for: dayDate)
             let dayEnd = cal.date(byAdding: .day, value: 1, to: dayStart) ?? dayStart
-            let count = sessions.filter { $0.endDate >= dayStart && $0.endDate < dayEnd }.count
-            items.append(DayChartItem(id: "d\(offset)", dayStart: dayStart, sessionCount: count))
+            let list = sessions.filter { $0.endDate >= dayStart && $0.endDate < dayEnd }
+            let count = list.count
+            let duration = list.reduce(0) { $0 + $1.durationSeconds }
+            let steps = list.reduce(0) { $0 + $1.steps }
+            let calories = list.reduce(0) { $0 + $1.estimatedCalories }
+            items.append(DayChartItem(
+                id: "d\(offset)",
+                dayStart: dayStart,
+                sessionCount: count,
+                totalDurationSeconds: duration,
+                totalSteps: steps,
+                totalCalories: calories
+            ))
         }
         return items
     }

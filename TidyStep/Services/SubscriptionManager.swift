@@ -20,13 +20,12 @@ final class SubscriptionManager: ObservableObject {
 
     @Published private(set) var products: [Product] = []
     @Published private(set) var isSubscribed: Bool = false
-    /// 临时调试：为 true 时界面按「已订阅」显示，无需真实购买。
-    @Published var debugForceSubscribed: Bool = false
+    // 调试时可恢复：@Published var debugForceSubscribed: Bool = false
     @Published private(set) var isLoading: Bool = false
     @Published private(set) var purchaseError: String? = nil
 
-    /// 是否有权使用高级功能：真实订阅或调试开关开启时为 true。
-    var hasAccess: Bool { isSubscribed || debugForceSubscribed }
+    /// 是否有权使用高级功能：仅真实订阅时为 true。
+    var hasAccess: Bool { isSubscribed }
 
     private var updateListener: Task<Void, Never>? = nil
 

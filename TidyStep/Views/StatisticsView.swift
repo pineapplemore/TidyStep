@@ -159,6 +159,14 @@ private enum SummaryPeriod: String, CaseIterable {
     }
 }
 
+/// 图表纵轴指标：次数 / 时长 / 步数 / 卡路里
+private enum ChartMetric: String, CaseIterable {
+    case sessions
+    case duration
+    case steps
+    case calories
+}
+
 /// 图表周期：同上（柱状图对应同样天数的柱子）
 private enum ChartPeriod: String, CaseIterable {
     case last7Days
@@ -204,14 +212,35 @@ struct StatisticsView: View {
     @State private var selectedDayForDetail: DayDetailItem?
     private static let summaryPeriodKey = "stats_summary_period"
     private static let chartPeriodKey = "stats_chart_period"
+    private static let chartMetricKey = "stats_chart_metric"
     @State private var summaryPeriod: SummaryPeriod = .last7Days
     @State private var chartPeriod: ChartPeriod = .last7Days
+    @State private var chartMetric: ChartMetric = .sessions
     @State private var selectedPeriodDetail: PeriodDetailItem?
     /// 当图表 >14 天时，用日期选择器查询某日数据
     @State private var queryDate: Date = Date()
 
     private var selectedSummary: StatsSummary {
         storage.statsLast(days: summaryPeriod.days)
+    }
+
+    /// 按当前选择的指标取该日的数值（用于柱高/折线纵轴）
+    private func chartValue(for item: DayChartItem, metric: ChartMetric) -> Double {
+        switch metric {
+        case .sessions: return Double(item.sessionCount)
+        case .duration: return item.totalDurationSeconds
+        case .steps: return Double(item.totalSteps)
+        case .calories: return item.totalCalories
+        }
+    }
+
+    private func chartMetricTitle(_ m: ChartMetric) -> String {
+        switch m {
+        case .sessions: return appLanguage.string("stats_sessions")
+        case .duration: return appLanguage.string("session_duration")
+        case .steps: return appLanguage.string("session_steps")
+        case .calories: return appLanguage.string("end_calories")
+        }
     }
 
     private func summaryPeriodTitle(_ p: SummaryPeriod) -> String {
@@ -334,12 +363,18 @@ struct StatisticsView: View {
                 if let raw = UserDefaults.standard.string(forKey: Self.chartPeriodKey), let p = ChartPeriod(rawValue: raw) {
                     chartPeriod = p
                 }
+                if let raw = UserDefaults.standard.string(forKey: Self.chartMetricKey), let m = ChartMetric(rawValue: raw) {
+                    chartMetric = m
+                }
             }
             .onChange(of: summaryPeriod) { new in
                 UserDefaults.standard.set(new.rawValue, forKey: Self.summaryPeriodKey)
             }
             .onChange(of: chartPeriod) { new in
                 UserDefaults.standard.set(new.rawValue, forKey: Self.chartPeriodKey)
+            }
+            .onChange(of: chartMetric) { new in
+                UserDefaults.standard.set(new.rawValue, forKey: Self.chartMetricKey)
             }
         }
     }
@@ -388,15 +423,33 @@ struct StatisticsView: View {
                 .contentShape(Rectangle())
             }
             .tint(.white)
+            Text(appLanguage.string("stats_chart_metric"))
+                .font(.headline)
+                .foregroundStyle(Color(hex: 0x9CA3AF))
+            Menu {
+                ForEach(ChartMetric.allCases, id: \.self) { m in
+                    Button(chartMetricTitle(m)) { chartMetric = m }
+                }
+            } label: {
+                HStack(spacing: 6) {
+                    Text(chartMetricTitle(chartMetric))
+                        .foregroundStyle(.white)
+                    Image(systemName: "chevron.down")
+                        .font(.caption)
+                        .foregroundStyle(Color(hex: 0x9CA3AF))
+                }
+                .contentShape(Rectangle())
+            }
+            .tint(.white)
             barChartContent
         }
     }
 
-    /// 图表：≤60 天柱状图一屏展示；≥90 天折线图一屏展示；仅 7 天可点柱，≥14 天用日期选择器。
+    /// 图表：≤60 天柱状图一屏展示；≥90 天折线图一屏展示；仅 7 天可点柱，≥14 天用日期选择器。纵轴按 chartMetric 显示。
     private var barChartContent: some View {
         let days = chartPeriod.days
         let items = storage.lastDaysChartItems(days: days)
-        let maxCount = max(1, items.map(\.sessionCount).max() ?? 1)
+        let maxValue = max(1, items.map { chartValue(for: $0, metric: chartMetric) }.max() ?? 1)
         let canTapBar = (days == 7)
         let useLineChart = (days >= 90)
         return barChartContainer(showTitle: false) {
@@ -405,17 +458,17 @@ struct StatisticsView: View {
                     datePickerRow
                 }
                 if useLineChart {
-                    lineChartView(items: items, maxCount: maxCount)
+                    lineChartView(items: items, metric: chartMetric, maxValue: maxValue)
                         .frame(height: 100)
                 } else {
-                    barChartView(items: items, days: days, maxCount: maxCount, canTapBar: canTapBar)
+                    barChartView(items: items, days: days, metric: chartMetric, maxValue: maxValue, canTapBar: canTapBar)
                         .frame(height: 100)
                 }
             }
         }
     }
 
-    private func barChartView(items: [DayChartItem], days: Int, maxCount: Int, canTapBar: Bool) -> some View {
+    private func barChartView(items: [DayChartItem], days: Int, metric: ChartMetric, maxValue: Double, canTapBar: Bool) -> some View {
         GeometryReader { geometry in
             let horizontalPadding: CGFloat = 8
             let availableWidth = geometry.size.width - horizontalPadding * 2
@@ -424,16 +477,17 @@ struct StatisticsView: View {
             let computedBarWidth = max(2, (availableWidth - totalSpacing) / CGFloat(days))
             HStack(alignment: .bottom, spacing: spacing) {
                 ForEach(items) { item in
+                    let value = chartValue(for: item, metric: metric)
                     Group {
                         if canTapBar {
                             Button {
                                 selectedDayForDetail = DayDetailItem(dayStart: item.dayStart)
                             } label: {
-                                barColumn(item: item, barWidth: computedBarWidth, days: days, maxCount: maxCount)
+                                barColumn(item: item, barWidth: computedBarWidth, days: days, value: value, maxValue: maxValue)
                             }
                             .buttonStyle(.plain)
                         } else {
-                            barColumn(item: item, barWidth: computedBarWidth, days: days, maxCount: maxCount)
+                            barColumn(item: item, barWidth: computedBarWidth, days: days, value: value, maxValue: maxValue)
                         }
                     }
                     .frame(width: computedBarWidth)
@@ -444,8 +498,8 @@ struct StatisticsView: View {
         }
     }
 
-    /// 折线图：≥90 天时使用，一屏内显示全部数据点
-    private func lineChartView(items: [DayChartItem], maxCount: Int) -> some View {
+    /// 折线图：≥90 天时使用，一屏内显示全部数据点；纵轴按 metric 取值
+    private func lineChartView(items: [DayChartItem], metric: ChartMetric, maxValue: Double) -> some View {
         GeometryReader { geometry in
             let w = geometry.size.width
             let h = geometry.size.height
@@ -458,10 +512,11 @@ struct StatisticsView: View {
                 }
             } else {
                 let stepX = (w - 16) / CGFloat(count - 1)
-                let maxVal = CGFloat(max(1, maxCount))
+                let maxVal = CGFloat(max(1, maxValue))
                 let points: [(CGFloat, CGFloat)] = items.enumerated().map { i, item in
                     let x = 8 + CGFloat(i) * stepX
-                    let y = h - 20 - (CGFloat(item.sessionCount) / maxVal) * (h - 24)
+                    let val = chartValue(for: item, metric: metric)
+                    let y = h - 20 - (CGFloat(val) / maxVal) * (h - 24)
                     return (x, max(4, y))
                 }
                 ZStack(alignment: .bottomLeading) {
@@ -496,8 +551,8 @@ struct StatisticsView: View {
         }
     }
 
-    private func barColumn(item: DayChartItem, barWidth: CGFloat, days: Int, maxCount: Int) -> some View {
-        let h = max(4, CGFloat(item.sessionCount) / CGFloat(maxCount) * 80)
+    private func barColumn(item: DayChartItem, barWidth: CGFloat, days: Int, value: Double, maxValue: Double) -> some View {
+        let h = max(4, CGFloat(value) / CGFloat(max(1, maxValue)) * 80)
         return VStack(spacing: 2) {
             RoundedRectangle(cornerRadius: 2)
                 .fill(Color(hex: 0x5EEAD4))
@@ -607,7 +662,7 @@ struct StatisticsView: View {
         .padding(.top, 24)
     }
 
-    /// Free users: 2-day stats (duration, steps, calories) + bar chart preview.
+    /// Free users: 2-day stats (次数, duration, steps, calories) + bar chart preview.
     private var preview2DaySection: some View {
         let summary = storage.statsLast2Days
         let items = storage.last2DaysChartItems
@@ -617,6 +672,7 @@ struct StatisticsView: View {
                 .font(.headline)
                 .foregroundStyle(Color(hex: 0x9CA3AF))
             HStack(spacing: 16) {
+                miniStat(value: "\(summary.count)", label: appLanguage.string("stats_sessions"))
                 miniStat(value: formatMin(Int(summary.totalDurationSeconds / 60)), label: appLanguage.string("session_duration"))
                 miniStat(value: "\(summary.totalSteps)", label: appLanguage.string("session_steps"))
                 miniStat(value: String(format: "%.0f", summary.totalCalories), label: appLanguage.string("end_calories"))

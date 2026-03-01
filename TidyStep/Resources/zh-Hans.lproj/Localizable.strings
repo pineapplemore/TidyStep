@@ -28,6 +28,7 @@
 "stats_last_12_months" = "近 12 个月";
 "stats_summary_period" = "汇总周期";
 "stats_chart_period" = "图表";
+"stats_chart_metric" = "图表显示";
 "stats_monthly_sessions" = "每月整理次数";
 "stats_weekly_sessions" = "每周整理次数";
 "stats_chart_preview" = "预览（近 2 天）";

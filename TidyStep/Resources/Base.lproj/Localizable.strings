@@ -28,6 +28,7 @@
 "stats_last_12_months" = "Last 12 months";
 "stats_summary_period" = "Summary period";
 "stats_chart_period" = "Chart";
+"stats_chart_metric" = "Chart shows";
 "stats_monthly_sessions" = "Sessions per month";
 "stats_weekly_sessions" = "Sessions per week";
 "stats_chart_preview" = "Preview (2 days)";
