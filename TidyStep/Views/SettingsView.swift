@@ -8,13 +8,22 @@ import SwiftUI
 struct SettingsView: View {
     @EnvironmentObject var storage: StorageManager
     @EnvironmentObject var appLanguage: AppLanguage
+    @EnvironmentObject var subscription: SubscriptionManager
     @State private var weightText: String = ""
     @State private var showWeightSheet = false
+    @State private var showPaywall = false
     @State private var reminderEnabled: Bool = true
+    @State private var reminderIntervalDays: Int = 0
     @State private var reminderWeekday: Int = 1
     @State private var reminderHour: Int = 20
     @State private var reminderMinute: Int = 0
     @State private var notificationPermissionGranted: Bool? = nil
+
+    private let reminderIntervalOptions: [(Int, String)] = [
+        (0, "reminder_weekly"),
+        (3, "reminder_every_3_days"),
+        (5, "reminder_every_5_days"),
+    ]
 
     private var weekdays: [(Int, String)] {
         [
@@ -70,13 +79,23 @@ struct SettingsView: View {
                         }
 
                         if reminderEnabled {
-                            Picker(appLanguage.string("reminder_weekday"), selection: $reminderWeekday) {
-                                ForEach(weekdays, id: \.0) { day in
-                                    Text(day.1).tag(day.0)
+                            Picker(appLanguage.string("reminder_frequency"), selection: $reminderIntervalDays) {
+                                ForEach(reminderIntervalOptions, id: \.0) { opt in
+                                    Text(appLanguage.string(opt.1)).tag(opt.0)
                                 }
                             }
                             .foregroundStyle(.white)
-                            .onChange(of: reminderWeekday) { _ in applyReminder() }
+                            .onChange(of: reminderIntervalDays) { _ in applyReminder() }
+
+                            if reminderIntervalDays == 0 {
+                                Picker(appLanguage.string("reminder_weekday"), selection: $reminderWeekday) {
+                                    ForEach(weekdays, id: \.0) { day in
+                                        Text(day.1).tag(day.0)
+                                    }
+                                }
+                                .foregroundStyle(.white)
+                                .onChange(of: reminderWeekday) { _ in applyReminder() }
+                            }
 
                             DatePicker(
                                 appLanguage.string("reminder_time"),
@@ -108,6 +127,44 @@ struct SettingsView: View {
                         }
                     }
                     .listRowBackground(Color(hex: 0x1A1A1E))
+
+                    Section {
+                        if subscription.isSubscribed {
+                            HStack {
+                                Text(appLanguage.string("paywall_subscribed"))
+                                    .foregroundStyle(.white)
+                                Spacer()
+                                Image(systemName: "checkmark.circle.fill")
+                                    .foregroundStyle(Color(hex: 0x22C55E))
+                            }
+                            .listRowBackground(Color(hex: 0x1A1A1E))
+                        }
+                        Button {
+                            showPaywall = true
+                        } label: {
+                            HStack {
+                                Text(subscription.isSubscribed ? appLanguage.string("paywall_manage") : appLanguage.string("paywall_unlock"))
+                                    .foregroundStyle(.white)
+                                Spacer()
+                                Image(systemName: "chevron.right")
+                                    .font(.caption)
+                                    .foregroundStyle(Color(hex: 0x6B7280))
+                            }
+                        }
+                        .listRowBackground(Color(hex: 0x1A1A1E))
+                        Button {
+                            Task { await subscription.restore() }
+                        } label: {
+                            Text(appLanguage.string("paywall_restore"))
+                                .foregroundStyle(.white)
+                        }
+                        .listRowBackground(Color(hex: 0x1A1A1E))
+                        .disabled(subscription.isLoading)
+                    } header: {
+                        Text(appLanguage.string("paywall_section"))
+                            .foregroundStyle(Color(hex: 0x9CA3AF))
+                    }
+                    .listRowBackground(Color(hex: 0x1A1A1E))
                 }
             }
             .navigationTitle(appLanguage.string("tab_settings"))
@@ -124,11 +181,17 @@ struct SettingsView: View {
             }
             .onAppear {
                 reminderEnabled = storage.reminderEnabled
+                reminderIntervalDays = storage.reminderIntervalDays
                 reminderWeekday = storage.reminderWeekday
                 reminderHour = storage.reminderHour
                 reminderMinute = storage.reminderMinute
                 if reminderWeekday == 0 { reminderWeekday = 1 }
                 requestNotificationAndSchedule()
+            }
+            .sheet(isPresented: $showPaywall) {
+                PaywallView(onDismiss: { showPaywall = false })
+                    .environmentObject(subscription)
+                    .environmentObject(appLanguage)
             }
             .sheet(isPresented: $showWeightSheet) {
                 WeightInputSheet(
@@ -154,16 +217,25 @@ struct SettingsView: View {
     private func applyReminder() {
         storage.saveReminder(
             enabled: reminderEnabled,
+            intervalDays: reminderIntervalDays,
             weekday: reminderWeekday,
             hour: reminderHour,
             minute: reminderMinute
         )
         if reminderEnabled {
-            NotificationManager.shared.scheduleWeekly(
-                weekday: reminderWeekday,
-                hour: reminderHour,
-                minute: reminderMinute
-            )
+            if reminderIntervalDays == 0 {
+                NotificationManager.shared.scheduleWeekly(
+                    weekday: reminderWeekday,
+                    hour: reminderHour,
+                    minute: reminderMinute
+                )
+            } else {
+                NotificationManager.shared.scheduleInterval(
+                    days: reminderIntervalDays,
+                    hour: reminderHour,
+                    minute: reminderMinute
+                )
+            }
         } else {
             NotificationManager.shared.cancelWeekly()
         }

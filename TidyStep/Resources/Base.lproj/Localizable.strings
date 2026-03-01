@@ -2,6 +2,13 @@
 "tab_start" = "Start";
 "tab_history" = "History";
 "tab_settings" = "Settings";
+"tab_statistics" = "Statistics";
+
+/* Statistics */
+"stats_this_week" = "This week";
+"stats_this_month" = "This month";
+"stats_sessions" = "Sessions";
+"stats_last_8_weeks" = "Last 8 weeks";
 
 /* Start */
 "start_title" = "Ready to clean?";
@@ -51,6 +58,10 @@
 "settings_weight_section" = "Calorie accuracy";
 "settings_reminder_section" = "Weekly reminder";
 "reminder_enabled" = "Reminder on";
+"reminder_frequency" = "Frequency";
+"reminder_weekly" = "Weekly";
+"reminder_every_3_days" = "Every 3 days";
+"reminder_every_5_days" = "Every 5 days";
 "reminder_weekday" = "Day";
 "reminder_time" = "Time";
 "reminder_permission_denied" = "Enable notifications in Settings to get reminders.";
@@ -74,3 +85,22 @@
 "onboarding_body" = "Tap Start and put your phone in your pocket. Move around while you clean. When you're done, tap End to see your steps and estimated calories. We'll remind you weekly to tidy up.";
 "onboarding_dont_show" = "Don't show again";
 "onboarding_ok" = "Got it";
+
+/* Paywall / Subscription */
+"paywall_title" = "Unlock TidyStep Premium";
+"paywall_subtitle" = "Statistics, flexible reminders & home screen widget.";
+"paywall_trial_days" = "3-day free trial";
+"paywall_monthly" = "Monthly";
+"paywall_yearly" = "Yearly";
+"paywall_start_trial" = "Start free trial";
+"paywall_restore" = "Restore purchases";
+"paywall_maybe_later" = "Maybe later";
+"paywall_feature_stats" = "Weekly & monthly stats and charts";
+"paywall_feature_reminder" = "Flexible reminder (every 3 or 5 days)";
+"paywall_feature_widget" = "Home screen widget";
+"paywall_section" = "Subscription";
+"paywall_subscribed" = "Premium active";
+"paywall_manage" = "Manage subscription";
+"paywall_unlock" = "Unlock";
+"paywall_stats_locked" = "Statistics are part of Premium";
+"paywall_stats_locked_subtitle" = "Subscribe to see weekly & monthly summaries and the last 8 weeks chart.";

@@ -22,11 +22,16 @@ struct RootView: View {
                     Label(appLanguage.string("tab_history"), systemImage: "clock.arrow.circlepath")
                 }
                 .tag(1)
+            StatisticsView()
+                .tabItem {
+                    Label(appLanguage.string("tab_statistics"), systemImage: "chart.bar.fill")
+                }
+                .tag(2)
             SettingsView()
                 .tabItem {
                     Label(appLanguage.string("tab_settings"), systemImage: "gearshape.fill")
                 }
-                .tag(2)
+                .tag(3)
         }
         .preferredColorScheme(.dark)
         .alert(appLanguage.string("alert_still_cleaning_title"), isPresented: $session.showThirtyMinuteAlert) {

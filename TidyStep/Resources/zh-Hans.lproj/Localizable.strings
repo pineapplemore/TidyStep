@@ -2,6 +2,13 @@
 "tab_start" = "开始";
 "tab_history" = "历史";
 "tab_settings" = "设置";
+"tab_statistics" = "统计";
+
+/* Statistics */
+"stats_this_week" = "本周";
+"stats_this_month" = "本月";
+"stats_sessions" = "次数";
+"stats_last_8_weeks" = "近 8 周";
 
 /* Start */
 "start_title" = "准备整理了吗？";
@@ -51,6 +58,10 @@
 "settings_weight_section" = "卡路里精度";
 "settings_reminder_section" = "每周提醒";
 "reminder_enabled" = "开启提醒";
+"reminder_frequency" = "频率";
+"reminder_weekly" = "每周";
+"reminder_every_3_days" = "每 3 天";
+"reminder_every_5_days" = "每 5 天";
 "reminder_weekday" = "星期";
 "reminder_time" = "时间";
 "reminder_permission_denied" = "请在「设置」中允许通知，以接收提醒。";
@@ -74,3 +85,22 @@
 "onboarding_body" = "点击开始，把手机放在口袋里，边整理边走动。整理结束后点击「结束」即可查看步数和估算卡路里。我们会每周提醒你整理一次。";
 "onboarding_dont_show" = "以后不再提示";
 "onboarding_ok" = "知道了";
+
+/* Paywall / Subscription */
+"paywall_title" = "解锁 TidyStep 高级版";
+"paywall_subtitle" = "统计、灵活提醒与主屏幕小组件。";
+"paywall_trial_days" = "3 天免费试用";
+"paywall_monthly" = "月付";
+"paywall_yearly" = "年付";
+"paywall_start_trial" = "开始免费试用";
+"paywall_restore" = "恢复购买";
+"paywall_maybe_later" = "稍后再说";
+"paywall_feature_stats" = "本周/本月统计与图表";
+"paywall_feature_reminder" = "灵活提醒（每 3 天或 5 天）";
+"paywall_feature_widget" = "主屏幕小组件";
+"paywall_section" = "订阅";
+"paywall_subscribed" = "已订阅高级版";
+"paywall_manage" = "管理订阅";
+"paywall_unlock" = "解锁";
+"paywall_stats_locked" = "统计为高级版功能";
+"paywall_stats_locked_subtitle" = "订阅后可查看本周/本月汇总与近 8 周图表。";

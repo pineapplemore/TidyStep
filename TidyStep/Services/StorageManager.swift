@@ -16,7 +16,9 @@ final class StorageManager: ObservableObject {
     @Published var sessions: [CleaningSession] = []
     @Published var userWeightKg: Double? = nil
     @Published var reminderEnabled: Bool = true
-    @Published var reminderWeekday: Int = 0 // 0 = Sunday
+    /// 0 = weekly (use weekday); 3 = every 3 days; 5 = every 5 days.
+    @Published var reminderIntervalDays: Int = 0
+    @Published var reminderWeekday: Int = 0
     @Published var reminderHour: Int = 20
     @Published var reminderMinute: Int = 0
 
@@ -39,6 +41,8 @@ final class StorageManager: ObservableObject {
         }
         reminderHour = defaults.object(forKey: "reminder_hour") as? Int ?? 20
         reminderMinute = defaults.object(forKey: "reminder_minute") as? Int ?? 0
+        reminderIntervalDays = defaults.object(forKey: "reminder_interval_days") as? Int ?? 0
+        pushWidgetData()
     }
 
     func saveWeight(_ kg: Double?) {
@@ -50,15 +54,18 @@ final class StorageManager: ObservableObject {
         }
     }
 
-    func saveReminder(enabled: Bool, weekday: Int, hour: Int, minute: Int) {
+    func saveReminder(enabled: Bool, intervalDays: Int, weekday: Int, hour: Int, minute: Int) {
         reminderEnabled = enabled
+        reminderIntervalDays = intervalDays
         reminderWeekday = weekday
         reminderHour = hour
         reminderMinute = minute
         defaults.set(enabled, forKey: "reminder_enabled")
+        defaults.set(intervalDays, forKey: "reminder_interval_days")
         defaults.set(weekday, forKey: "reminder_weekday")
         defaults.set(hour, forKey: "reminder_hour")
         defaults.set(minute, forKey: "reminder_minute")
+        pushWidgetData()
     }
 
     func addSession(_ session: CleaningSession) {
@@ -69,5 +76,17 @@ final class StorageManager: ObservableObject {
         if let data = try? JSONEncoder().encode(sessions) {
             defaults.set(data, forKey: historyKey)
         }
+        pushWidgetData()
+    }
+
+    private func pushWidgetData() {
+        WidgetDataManager.update(
+            sessions: sessions,
+            reminderEnabled: reminderEnabled,
+            reminderHour: reminderHour,
+            reminderMinute: reminderMinute,
+            reminderWeekday: reminderWeekday,
+            reminderIntervalDays: reminderIntervalDays
+        )
     }
 }
