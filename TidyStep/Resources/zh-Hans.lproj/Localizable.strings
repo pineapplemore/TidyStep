@@ -1,0 +1,76 @@
+/* Tab */
+"tab_start" = "开始";
+"tab_history" = "历史";
+"tab_settings" = "设置";
+
+/* Start */
+"start_title" = "准备整理了吗？";
+"start_subtitle" = "把手机放在口袋里，点击开始。我们会统计步数并估算卡路里。";
+"start_add_weight" = "填写体重，卡路里更精准";
+"start_button" = "开始整理";
+
+/* Session */
+"session_in_progress" = "整理进行中";
+"session_paused" = "已暂停";
+"session_pause" = "暂停";
+"session_resume" = "继续";
+"session_steps" = "步数";
+"session_duration" = "时长";
+"session_end" = "结束整理";
+
+/* Alerts */
+"alert_still_cleaning_title" = "你还在整理吗？";
+"alert_still_message" = "你还在整理吗？";
+"alert_still_yes" = "是";
+"alert_still_no" = "否";
+"alert_still_dont_remind" = "不再提醒";
+"alert_two_hour_title" = "本次时长";
+"alert_two_hour_message" = "本次已超过 2 小时，要结束并保存吗？";
+"alert_two_hour_end" = "结束整理";
+"alert_two_hour_continue" = "继续";
+
+/* End */
+"end_title" = "完成得不错！";
+"end_calories" = "卡路里";
+"end_done" = "完成";
+"time_min" = "分";
+"time_sec" = "秒";
+
+/* Weight */
+"weight_title" = "体重";
+"weight_placeholder" = "体重（公斤）";
+"weight_accuracy_tip" = "填写体重可以让卡路里估算更精准。";
+"weight_save" = "保存";
+"weight_cancel" = "取消";
+"weight_not_set" = "未设置";
+
+/* History */
+"history_empty" = "还没有记录。开始整理后这里会显示历史。";
+
+/* Settings */
+"settings_weight_section" = "卡路里精度";
+"settings_reminder_section" = "每周提醒";
+"reminder_enabled" = "开启提醒";
+"reminder_weekday" = "星期";
+"reminder_time" = "时间";
+"reminder_permission_denied" = "请在「设置」中允许通知，以接收提醒。";
+"weekday_sun" = "周日";
+"weekday_mon" = "周一";
+"weekday_tue" = "周二";
+"weekday_wed" = "周三";
+"weekday_thu" = "周四";
+"weekday_fri" = "周五";
+"weekday_sat" = "周六";
+
+/* Notifications */
+"notification_weekly_title" = "该整理房间啦";
+"notification_weekly_body" = "好的环境可以让你的一天心情舒畅。随手收拾一下，准备好就开始吧。";
+"notification_weekly_body_2" = "好的环境能让你事半功倍。该整理房间啦。";
+"notification_weekly_body_3" = "整洁的环境能让心情更明朗。准备好整理了吗？";
+"notification_weekly_body_4" = "小小整理，大大改变。动动手，房间焕然一新。";
+
+/* Onboarding */
+"onboarding_title" = "使用说明";
+"onboarding_body" = "点击开始，把手机放在口袋里，边整理边走动。整理结束后点击「结束」即可查看步数和估算卡路里。我们会每周提醒你整理一次。";
+"onboarding_dont_show" = "以后不再提示";
+"onboarding_ok" = "知道了";

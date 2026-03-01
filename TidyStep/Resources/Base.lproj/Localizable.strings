@@ -1,0 +1,76 @@
+/* Tab */
+"tab_start" = "Start";
+"tab_history" = "History";
+"tab_settings" = "Settings";
+
+/* Start */
+"start_title" = "Ready to clean?";
+"start_subtitle" = "Put your phone in your pocket and tap Start. We'll count steps and estimate calories.";
+"start_add_weight" = "Add weight for accurate calories";
+"start_button" = "Start cleaning";
+
+/* Session */
+"session_in_progress" = "Cleaning in progress";
+"session_paused" = "Paused";
+"session_pause" = "Pause";
+"session_resume" = "Resume";
+"session_steps" = "Steps";
+"session_duration" = "Duration";
+"session_end" = "End session";
+
+/* Alerts */
+"alert_still_cleaning_title" = "Still cleaning?";
+"alert_still_message" = "Are you still cleaning?";
+"alert_still_yes" = "Yes";
+"alert_still_no" = "No";
+"alert_still_dont_remind" = "Don't remind again";
+"alert_two_hour_title" = "Session length";
+"alert_two_hour_message" = "This session has been over 2 hours. End and save?";
+"alert_two_hour_end" = "End session";
+"alert_two_hour_continue" = "Continue";
+
+/* End */
+"end_title" = "Great job!";
+"end_calories" = "Calories";
+"end_done" = "Done";
+"time_min" = "min";
+"time_sec" = "sec";
+
+/* Weight */
+"weight_title" = "Weight";
+"weight_placeholder" = "Weight (kg)";
+"weight_accuracy_tip" = "Adding your weight helps us estimate calories more accurately.";
+"weight_save" = "Save";
+"weight_cancel" = "Cancel";
+"weight_not_set" = "Not set";
+
+/* History */
+"history_empty" = "No sessions yet. Start cleaning to see your history here.";
+
+/* Settings */
+"settings_weight_section" = "Calorie accuracy";
+"settings_reminder_section" = "Weekly reminder";
+"reminder_enabled" = "Reminder on";
+"reminder_weekday" = "Day";
+"reminder_time" = "Time";
+"reminder_permission_denied" = "Enable notifications in Settings to get reminders.";
+"weekday_sun" = "Sunday";
+"weekday_mon" = "Monday";
+"weekday_tue" = "Tuesday";
+"weekday_wed" = "Wednesday";
+"weekday_thu" = "Thursday";
+"weekday_fri" = "Friday";
+"weekday_sat" = "Saturday";
+
+/* Notifications */
+"notification_weekly_title" = "Time to clean";
+"notification_weekly_body" = "A good environment can brighten your whole day. Start a quick tidy when you're ready.";
+"notification_weekly_body_2" = "A tidy space helps you get twice the result with half the effort. Time for a clean-up!";
+"notification_weekly_body_3" = "A clean room makes the mind clear. Ready to tidy up?";
+"notification_weekly_body_4" = "A little cleaning goes a long way. Your future self will thank you.";
+
+/* Onboarding */
+"onboarding_title" = "How it works";
+"onboarding_body" = "Tap Start and put your phone in your pocket. Move around while you clean. When you're done, tap End to see your steps and estimated calories. We'll remind you weekly to tidy up.";
+"onboarding_dont_show" = "Don't show again";
+"onboarding_ok" = "Got it";

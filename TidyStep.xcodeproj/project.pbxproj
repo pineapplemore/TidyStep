@@ -1,0 +1,375 @@
+// !$*UTF8*$!
+{
+	archiveVersion = 1;
+	classes = {
+	};
+	objectVersion = 54;
+	objects = {
+
+/* Begin PBXBuildFile section */
+		C101 /* TidyStepApp.swift in Sources */ = {isa = PBXBuildFile; fileRef = F101 /* TidyStepApp.swift */; };
+		C102 /* RootView.swift in Sources */ = {isa = PBXBuildFile; fileRef = F102 /* RootView.swift */; };
+		C103 /* StartView.swift in Sources */ = {isa = PBXBuildFile; fileRef = F103 /* StartView.swift */; };
+		C104 /* SessionView.swift in Sources */ = {isa = PBXBuildFile; fileRef = F104 /* SessionView.swift */; };
+		C105 /* EndSessionView.swift in Sources */ = {isa = PBXBuildFile; fileRef = F105 /* EndSessionView.swift */; };
+		C106 /* HistoryView.swift in Sources */ = {isa = PBXBuildFile; fileRef = F106 /* HistoryView.swift */; };
+		C107 /* SettingsView.swift in Sources */ = {isa = PBXBuildFile; fileRef = F107 /* SettingsView.swift */; };
+		C108 /* OnboardingView.swift in Sources */ = {isa = PBXBuildFile; fileRef = F108 /* OnboardingView.swift */; };
+		C109 /* CleaningSession.swift in Sources */ = {isa = PBXBuildFile; fileRef = F109 /* CleaningSession.swift */; };
+		C110 /* StorageManager.swift in Sources */ = {isa = PBXBuildFile; fileRef = F110 /* StorageManager.swift */; };
+		C111 /* NotificationManager.swift in Sources */ = {isa = PBXBuildFile; fileRef = F111 /* NotificationManager.swift */; };
+		C112 /* SessionManager.swift in Sources */ = {isa = PBXBuildFile; fileRef = F112 /* SessionManager.swift */; };
+		C113 /* Color+Hex.swift in Sources */ = {isa = PBXBuildFile; fileRef = F113 /* Color+Hex.swift */; };
+		C114 /* AppLanguage.swift in Sources */ = {isa = PBXBuildFile; fileRef = F114 /* AppLanguage.swift */; };
+		C201 /* Assets.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = F201 /* Assets.xcassets */; };
+		C202 /* Localizable.strings in Resources */ = {isa = PBXBuildFile; fileRef = VG01 /* Localizable.strings */; };
+/* End PBXBuildFile section */
+
+/* Begin PBXFileReference section */
+		E001 /* TidyStep.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = TidyStep.app; sourceTree = BUILT_PRODUCTS_DIR; };
+		F101 /* TidyStepApp.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = TidyStepApp.swift; sourceTree = "<group>"; };
+		F102 /* RootView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = RootView.swift; sourceTree = "<group>"; };
+		F103 /* StartView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = StartView.swift; sourceTree = "<group>"; };
+		F104 /* SessionView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SessionView.swift; sourceTree = "<group>"; };
+		F105 /* EndSessionView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = EndSessionView.swift; sourceTree = "<group>"; };
+		F106 /* HistoryView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = HistoryView.swift; sourceTree = "<group>"; };
+		F107 /* SettingsView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SettingsView.swift; sourceTree = "<group>"; };
+		F108 /* OnboardingView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = OnboardingView.swift; sourceTree = "<group>"; };
+		F109 /* CleaningSession.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CleaningSession.swift; sourceTree = "<group>"; };
+		F110 /* StorageManager.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = StorageManager.swift; sourceTree = "<group>"; };
+		F111 /* NotificationManager.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = NotificationManager.swift; sourceTree = "<group>"; };
+		F112 /* SessionManager.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SessionManager.swift; sourceTree = "<group>"; };
+		F113 /* Color+Hex.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "Color+Hex.swift"; sourceTree = "<group>"; };
+		F114 /* AppLanguage.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AppLanguage.swift; sourceTree = "<group>"; };
+		F201 /* Assets.xcassets */ = {isa = PBXFileReference; lastKnownFileType = folder.assetcatalog; path = Assets.xcassets; sourceTree = "<group>"; };
+/* End PBXFileReference section */
+
+/* Begin PBXFrameworksBuildPhase section */
+		P301 /* Frameworks */ = {
+			isa = PBXFrameworksBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+			sourceTree = "<group>";
+		};
+/* End PBXFrameworksBuildPhase section */
+
+/* Begin PBXGroup section */
+		G001 = {
+			isa = PBXGroup;
+			children = (
+				G002 /* TidyStep */,
+				G003 /* Products */,
+			);
+			sourceTree = "<group>";
+		};
+		G002 /* TidyStep */ = {
+			isa = PBXGroup;
+			children = (
+				F101 /* TidyStepApp.swift */,
+				G004 /* Models */,
+				G005 /* Services */,
+				G006 /* Views */,
+				G007 /* Helpers */,
+				G008 /* Resources */,
+			);
+			path = TidyStep;
+			sourceTree = "<group>";
+		};
+		G003 /* Products */ = {
+			isa = PBXGroup;
+			children = (
+				E001 /* TidyStep.app */,
+			);
+			name = Products;
+			sourceTree = "<group>";
+		};
+		G004 /* Models */ = {
+			isa = PBXGroup;
+			children = (
+				F109 /* CleaningSession.swift */,
+			);
+			path = Models;
+			sourceTree = "<group>";
+		};
+		G005 /* Services */ = {
+			isa = PBXGroup;
+			children = (
+				F110 /* StorageManager.swift */,
+				F111 /* NotificationManager.swift */,
+				F112 /* SessionManager.swift */,
+				F114 /* AppLanguage.swift */,
+			);
+			path = Services;
+			sourceTree = "<group>";
+		};
+		G006 /* Views */ = {
+			isa = PBXGroup;
+			children = (
+				F102 /* RootView.swift */,
+				F103 /* StartView.swift */,
+				F104 /* SessionView.swift */,
+				F105 /* EndSessionView.swift */,
+				F106 /* HistoryView.swift */,
+				F107 /* SettingsView.swift */,
+				F108 /* OnboardingView.swift */,
+			);
+			path = Views;
+			sourceTree = "<group>";
+		};
+		G007 /* Helpers */ = {
+			isa = PBXGroup;
+			children = (
+				F113 /* Color+Hex.swift */,
+			);
+			path = Helpers;
+			sourceTree = "<group>";
+		};
+		G008 /* Resources */ = {
+			isa = PBXGroup;
+			children = (
+				F201 /* Assets.xcassets */,
+				VG01 /* Localizable.strings */,
+				I001 /* Info.plist */,
+			);
+			path = Resources;
+			sourceTree = "<group>";
+		};
+		I001 /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
+		VG01 /* Localizable.strings */ = {
+			isa = PBXVariantGroup;
+			children = (
+				F202 /* Base */,
+				F203 /* zh-Hans */,
+			);
+			name = Localizable.strings;
+			sourceTree = "<group>";
+		};
+		F202 /* Base */ = {isa = PBXFileReference; lastKnownFileType = text.plist.strings; name = Base; path = "Base.lproj/Localizable.strings"; sourceTree = "<group>"; };
+		F203 /* zh-Hans */ = {isa = PBXFileReference; lastKnownFileType = text.plist.strings; name = "zh-Hans"; path = "zh-Hans.lproj/Localizable.strings"; sourceTree = "<group>"; };
+/* End PBXGroup section */
+
+/* Begin PBXNativeTarget section */
+		T001 /* TidyStep */ = {
+			isa = PBXNativeTarget;
+			buildConfigurationList = C601 /* Build configuration list for PBXNativeTarget "TidyStep" */;
+			buildPhases = (
+				P201 /* Sources */,
+				P301 /* Frameworks */,
+				P401 /* Resources */,
+			);
+			buildRules = (
+			);
+			dependencies = (
+			);
+			name = TidyStep;
+			productReference = E001 /* TidyStep.app */;
+			productType = "com.apple.product-type.application";
+		};
+/* End PBXNativeTarget section */
+
+/* Begin PBXProject section */
+		R001 /* Project object */ = {
+			isa = PBXProject;
+			attributes = {
+				BuildIndependentTargetsInParallel = 1;
+				LastSwiftUpdateCheck = 1500;
+				LastUpgradeCheck = 1500;
+			};
+			buildConfigurationList = C501 /* Build configuration list for PBXProject "TidyStep" */;
+			compatibilityVersion = "Xcode 14.0";
+			developmentRegion = en;
+			hasScannedForEncodings = 0;
+			knownRegions = (
+				en,
+				Base,
+				"zh-Hans",
+			);
+			mainGroup = G001;
+			productRefGroup = G003 /* Products */;
+			projectDirPath = "";
+			projectRoot = "";
+			targets = (
+				T001 /* TidyStep */,
+			);
+		};
+/* End PBXProject section */
+
+/* Begin PBXResourcesBuildPhase section */
+		P401 /* Resources */ = {
+			isa = PBXResourcesBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+				C201 /* Assets.xcassets in Resources */,
+				C202 /* Localizable.strings in Resources */,
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+			sourceTree = "<group>";
+		};
+/* End PBXResourcesBuildPhase section */
+
+/* Begin PBXSourcesBuildPhase section */
+		P201 /* Sources */ = {
+			isa = PBXSourcesBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+				C101 /* TidyStepApp.swift in Sources */,
+				C102 /* RootView.swift in Sources */,
+				C103 /* StartView.swift in Sources */,
+				C104 /* SessionView.swift in Sources */,
+				C105 /* EndSessionView.swift in Sources */,
+				C106 /* HistoryView.swift in Sources */,
+				C107 /* SettingsView.swift in Sources */,
+				C108 /* OnboardingView.swift in Sources */,
+				C109 /* CleaningSession.swift in Sources */,
+				C110 /* StorageManager.swift in Sources */,
+				C111 /* NotificationManager.swift in Sources */,
+				C112 /* SessionManager.swift in Sources */,
+				C113 /* Color+Hex.swift in Sources */,
+				C114 /* AppLanguage.swift in Sources */,
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+			sourceTree = "<group>";
+		};
+/* End PBXSourcesBuildPhase section */
+
+/* Begin XCBuildConfiguration section */
+		X001 /* Debug */ = {
+			isa = XCBuildConfiguration;
+			buildSettings = {
+				ALWAYS_SEARCH_USER_PATHS = NO;
+				ASSETCATALOG_COMPILER_GENERATE_SWIFT_ASSET_SYMBOL_EXTENSIONS = YES;
+				CLANG_ANALYZER_NONNULL = YES;
+				CLANG_ANALYZER_NUMBER_OBJECT_CONVERSION = YES_AGGRESSIVE;
+				CLANG_CXX_LANGUAGE_STANDARD = "gnu++20";
+				CLANG_ENABLE_MODULES = YES;
+				CLANG_ENABLE_OBJC_ARC = YES;
+				COPY_PHASE_STRIP = NO;
+				DEBUG_INFORMATION_FORMAT = dwarf;
+				ENABLE_STRICT_OBJC_MSGSEND = YES;
+				ENABLE_TESTABILITY = YES;
+				GCC_C_LANGUAGE_STANDARD = gnu17;
+				GCC_DYNAMIC_NO_PIC = NO;
+				GCC_OPTIMIZATION_LEVEL = 0;
+				GCC_PREPROCESSOR_DEFINITIONS = (
+					"DEBUG=1",
+					"$(inherited)",
+				);
+				IPHONEOS_DEPLOYMENT_TARGET = 15.0;
+				MTL_FAST_MATH = YES;
+				ONLY_ACTIVE_ARCH = YES;
+				SDKROOT = iphoneos;
+				SWIFT_ACTIVE_COMPILATION_CONDITIONS = "DEBUG $(inherited)";
+				SWIFT_OPTIMIZATION_LEVEL = "-Onone";
+			};
+			name = Debug;
+		};
+		X002 /* Release */ = {
+			isa = XCBuildConfiguration;
+			buildSettings = {
+				ALWAYS_SEARCH_USER_PATHS = NO;
+				ASSETCATALOG_COMPILER_GENERATE_SWIFT_ASSET_SYMBOL_EXTENSIONS = YES;
+				CLANG_ANALYZER_NONNULL = YES;
+				CLANG_ANALYZER_NUMBER_OBJECT_CONVERSION = YES_AGGRESSIVE;
+				CLANG_CXX_LANGUAGE_STANDARD = "gnu++20";
+				CLANG_ENABLE_MODULES = YES;
+				CLANG_ENABLE_OBJC_ARC = YES;
+				COPY_PHASE_STRIP = NO;
+				DEBUG_INFORMATION_FORMAT = "dwarf-with-dsym";
+				ENABLE_NS_ASSERTIONS = NO;
+				ENABLE_STRICT_OBJC_MSGSEND = YES;
+				GCC_C_LANGUAGE_STANDARD = gnu17;
+				IPHONEOS_DEPLOYMENT_TARGET = 15.0;
+				MTL_FAST_MATH = YES;
+				SDKROOT = iphoneos;
+				SWIFT_COMPILATION_MODE = wholemodule;
+				VALIDATE_PRODUCT = YES;
+			};
+			name = Release;
+		};
+		X003 /* Debug */ = {
+			isa = XCBuildConfiguration;
+			buildSettings = {
+				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
+				ASSETCATALOG_COMPILER_GLOBAL_ACCENT_COLOR_NAME = AccentColor;
+				CODE_SIGN_STYLE = Automatic;
+				CURRENT_PROJECT_VERSION = 1;
+				DEVELOPMENT_ASSET_PATHS = "";
+				ENABLE_PREVIEWS = YES;
+				GENERATE_INFOPLIST_FILE = NO;
+				INFOPLIST_FILE = TidyStep/Resources/Info.plist;
+				INFOPLIST_KEY_CFBundleDisplayName = "TidyStep";
+				INFOPLIST_KEY_UIApplicationSceneManifest_Generation = YES;
+				INFOPLIST_KEY_UIApplicationSupportsIndirectInputEvents = YES;
+				INFOPLIST_KEY_UILaunchScreen_Generation = YES;
+				INFOPLIST_KEY_UISupportedInterfaceOrientations_iPad = "UIInterfaceOrientationPortrait UIInterfaceOrientationPortraitUpsideDown UIInterfaceOrientationLandscapeLeft UIInterfaceOrientationLandscapeRight";
+				INFOPLIST_KEY_UISupportedInterfaceOrientations_iPhone = "UIInterfaceOrientationPortrait UIInterfaceOrientationLandscapeLeft UIInterfaceOrientationLandscapeRight";
+				LD_RUNPATH_SEARCH_PATHS = (
+					"$(inherited)",
+					"@executable_path/Frameworks",
+				);
+				MARKETING_VERSION = 1.0.0;
+				PRODUCT_BUNDLE_IDENTIFIER = com.tidystep.app;
+				PRODUCT_NAME = "$(TARGET_NAME)";
+				SWIFT_EMIT_LOC_STRINGS = YES;
+				SWIFT_VERSION = 5.0;
+				TARGETED_DEVICE_FAMILY = "1,2";
+			};
+			name = Debug;
+		};
+		X004 /* Release */ = {
+			isa = XCBuildConfiguration;
+			buildSettings = {
+				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
+				ASSETCATALOG_COMPILER_GLOBAL_ACCENT_COLOR_NAME = AccentColor;
+				CODE_SIGN_STYLE = Automatic;
+				CURRENT_PROJECT_VERSION = 1;
+				DEVELOPMENT_ASSET_PATHS = "";
+				ENABLE_PREVIEWS = YES;
+				GENERATE_INFOPLIST_FILE = NO;
+				INFOPLIST_FILE = TidyStep/Resources/Info.plist;
+				INFOPLIST_KEY_CFBundleDisplayName = "TidyStep";
+				INFOPLIST_KEY_UIApplicationSceneManifest_Generation = YES;
+				INFOPLIST_KEY_UIApplicationSupportsIndirectInputEvents = YES;
+				INFOPLIST_KEY_UILaunchScreen_Generation = YES;
+				INFOPLIST_KEY_UISupportedInterfaceOrientations_iPad = "UIInterfaceOrientationPortrait UIInterfaceOrientationPortraitUpsideDown UIInterfaceOrientationLandscapeLeft UIInterfaceOrientationLandscapeRight";
+				INFOPLIST_KEY_UISupportedInterfaceOrientations_iPhone = "UIInterfaceOrientationPortrait UIInterfaceOrientationLandscapeLeft UIInterfaceOrientationLandscapeRight";
+				LD_RUNPATH_SEARCH_PATHS = (
+					"$(inherited)",
+					"@executable_path/Frameworks",
+				);
+				MARKETING_VERSION = 1.0.0;
+				PRODUCT_BUNDLE_IDENTIFIER = com.tidystep.app;
+				PRODUCT_NAME = "$(TARGET_NAME)";
+				SWIFT_EMIT_LOC_STRINGS = YES;
+				SWIFT_VERSION = 5.0;
+				TARGETED_DEVICE_FAMILY = "1,2";
+			};
+			name = Release;
+		};
+/* End XCBuildConfiguration section */
+
+/* Begin XCConfigurationList section */
+		C501 /* Build configuration list for PBXProject "TidyStep" */ = {
+			isa = XCConfigurationList;
+			buildConfigurations = (
+				X001 /* Debug */,
+				X002 /* Release */,
+			);
+			defaultConfigurationIsVisible = 0;
+			defaultConfigurationName = Release;
+		};
+		C601 /* Build configuration list for PBXNativeTarget "TidyStep" */ = {
+			isa = XCConfigurationList;
+			buildConfigurations = (
+				X003 /* Debug */,
+				X004 /* Release */,
+			);
+			defaultConfigurationIsVisible = 0;
+			defaultConfigurationName = Release;
+		};
+/* End XCConfigurationList section */
+	};
+	rootObject = R001 /* Project object */;
+}
