@@ -1,0 +1,11 @@
+# Netlify build config for TidyStep marketing/support/privacy site
+# Build: none (static). Publish the website folder.
+[build]
+  publish = "website"
+  command = "echo 'Static site'"
+
+# Optional: redirect root to same page (no change)
+# [[redirects]]
+#   from = "/*"
+#   to = "/index.html"
+#   status = 200
