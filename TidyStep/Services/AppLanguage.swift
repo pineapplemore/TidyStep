@@ -14,7 +14,7 @@ final class AppLanguage: ObservableObject {
     private let key = "app_language"
     private let supported = ["en", "zh-Hans"]
 
-    /// Current override: "en", "zh-Hans", or nil to use region-based default.
+    /// 用户选择的语言；nil 表示首次未选，按地区默认（中国区中文，其余英文）；一旦用户切换过则持久化，下次按选择加载。
     @Published var currentLanguage: String? {
         didSet {
             UserDefaults.standard.set(currentLanguage, forKey: key)
@@ -22,7 +22,7 @@ final class AppLanguage: ObservableObject {
         }
     }
 
-    /// 中国地区优先中文，其他地区优先英文。（用 countryCode，兼容 iOS 15）
+    /// 首次启动按地区：中国区优先中文，其他地区优先英文。（用 countryCode，兼容 iOS 15）
     private static func regionBasedDefault() -> String {
         let code = (Locale.current as NSLocale).object(forKey: .countryCode) as? String
         return code == "CN" ? "zh-Hans" : "en"

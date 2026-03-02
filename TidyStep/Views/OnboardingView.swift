@@ -6,7 +6,8 @@
 import SwiftUI
 
 struct OnboardingView: View {
-    @Binding var hasSeenOnboarding: Bool
+    /// 本 session 内点击「知道了」后隐藏；下次启动若未勾选「不再提醒」会再次显示。
+    @Binding var dismissedThisSession: Bool
     @AppStorage("onboarding_do_not_show_again") private var doNotShowAgain = false
     @EnvironmentObject var appLanguage: AppLanguage
 
@@ -46,7 +47,7 @@ struct OnboardingView: View {
                 .padding(.top, 8)
 
                 Button {
-                    hasSeenOnboarding = true
+                    dismissedThisSession = true
                 } label: {
                     Text(appLanguage.string("onboarding_ok"))
                         .font(.headline)
@@ -58,6 +59,26 @@ struct OnboardingView: View {
                 }
                 .padding(.horizontal, 32)
                 .padding(.top, 16)
+            }
+            .frame(maxWidth: .infinity, maxHeight: .infinity)
+
+            // 与其它页一致：右上角语言图标（等同 toolbar .navigationBarTrailing），落在导航栏高度内
+            VStack {
+                HStack {
+                    Spacer()
+                    Button {
+                        appLanguage.toggleLanguage()
+                    } label: {
+                        Image(systemName: "globe")
+                            .font(.system(size: 22, weight: .regular))
+                            .frame(width: 44, height: 44, alignment: .center)
+                            .contentShape(Rectangle())
+                            .foregroundStyle(Color(hex: 0x9CA3AF))
+                    }
+                    .padding(.trailing, 16)
+                }
+                .frame(height: 44)
+                Spacer()
             }
         }
     }

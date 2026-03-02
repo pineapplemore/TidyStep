@@ -13,7 +13,8 @@ struct TidyStepApp: App {
     @StateObject private var storage = StorageManager.shared
     @StateObject private var appLanguage = AppLanguage.shared
     @StateObject private var subscription = SubscriptionManager.shared
-    @AppStorage("hasSeenOnboarding") private var hasSeenOnboarding = false
+    @AppStorage("onboarding_do_not_show_again") private var doNotShowAgain = false
+    @State private var onboardingDismissedThisSession = false
 
     init() {
         let mint = UIColor(red: 94/255, green: 234/255, blue: 212/255, alpha: 1)
@@ -29,8 +30,8 @@ struct TidyStepApp: App {
                 .environmentObject(appLanguage)
                 .environmentObject(subscription)
                 .overlay {
-                    if !hasSeenOnboarding {
-                        OnboardingView(hasSeenOnboarding: $hasSeenOnboarding)
+                    if !doNotShowAgain && !onboardingDismissedThisSession {
+                        OnboardingView(dismissedThisSession: $onboardingDismissedThisSession)
                             .environmentObject(appLanguage)
                     }
                 }

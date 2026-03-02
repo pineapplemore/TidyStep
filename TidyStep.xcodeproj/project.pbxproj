@@ -3,7 +3,7 @@
 	archiveVersion = 1;
 	classes = {
 	};
-	objectVersion = 54;
+	objectVersion = 55;
 	objects = {
 
 /* Begin PBXBuildFile section */
@@ -36,8 +36,33 @@
 		C801 /* TidyStepWidget.appex in Embed Foundation Extensions */ = {isa = PBXBuildFile; fileRef = E002 /* TidyStepWidget.appex */; settings = {ATTRIBUTES = (RemoveHeadersOnCopy, ); }; };
 /* End PBXBuildFile section */
 
+/* Begin PBXContainerItemProxy section */
+		B001 /* PBXContainerItemProxy */ = {
+			isa = PBXContainerItemProxy;
+			containerPortal = R001 /* Project object */;
+			proxyType = 1;
+			remoteGlobalIDString = T002;
+			remoteInfo = TidyStepWidgetExtension;
+		};
+/* End PBXContainerItemProxy section */
+
+/* Begin PBXCopyFilesBuildPhase section */
+		P801 /* Embed Foundation Extensions */ = {
+			isa = PBXCopyFilesBuildPhase;
+			buildActionMask = 2147483647;
+			dstPath = "";
+			dstSubfolderSpec = 13;
+			files = (
+				C801 /* TidyStepWidget.appex in Embed Foundation Extensions */,
+			);
+			name = "Embed Foundation Extensions";
+			runOnlyForDeploymentPostprocessing = 0;
+		};
+/* End PBXCopyFilesBuildPhase section */
+
 /* Begin PBXFileReference section */
 		E001 /* TidyStep.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = TidyStep.app; sourceTree = BUILT_PRODUCTS_DIR; };
+		E002 /* TidyStepWidget.appex */ = {isa = PBXFileReference; explicitFileType = "wrapper.app-extension"; includeInIndex = 0; name = TidyStepWidget.appex; path = TidyStepWidgetExtension.appex; sourceTree = BUILT_PRODUCTS_DIR; };
 		F101 /* TidyStepApp.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = TidyStepApp.swift; sourceTree = "<group>"; };
 		F102 /* RootView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = RootView.swift; sourceTree = "<group>"; };
 		F103 /* StartView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = StartView.swift; sourceTree = "<group>"; };
@@ -51,7 +76,6 @@
 		F111 /* NotificationManager.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = NotificationManager.swift; sourceTree = "<group>"; };
 		F112 /* SessionManager.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SessionManager.swift; sourceTree = "<group>"; };
 		F113 /* Color+Hex.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "Color+Hex.swift"; sourceTree = "<group>"; };
-		F121 /* ShareSheet.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ShareSheet.swift; sourceTree = "<group>"; };
 		F114 /* AppLanguage.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AppLanguage.swift; sourceTree = "<group>"; };
 		F115 /* StatsSummary.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = StatsSummary.swift; sourceTree = "<group>"; };
 		F116 /* StatisticsView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = StatisticsView.swift; sourceTree = "<group>"; };
@@ -59,14 +83,17 @@
 		F118 /* SubscriptionManager.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SubscriptionManager.swift; sourceTree = "<group>"; };
 		F119 /* PaywallView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PaywallView.swift; sourceTree = "<group>"; };
 		F120 /* EncouragementLibrary.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = EncouragementLibrary.swift; sourceTree = "<group>"; };
-		F204 /* TidyStep.entitlements */ = {isa = PBXFileReference; lastKnownFileType = text.plist.entitlements; path = TidyStep.entitlements; sourceTree = "<group>"; };
+		F121 /* ShareSheet.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ShareSheet.swift; sourceTree = "<group>"; };
 		F201 /* Assets.xcassets */ = {isa = PBXFileReference; lastKnownFileType = folder.assetcatalog; path = Assets.xcassets; sourceTree = "<group>"; };
-		E002 /* TidyStepWidget.appex */ = {isa = PBXFileReference; explicitFileType = "wrapper.app-extension"; includeInIndex = 0; path = TidyStepWidget.appex; sourceTree = BUILT_PRODUCTS_DIR; };
+		F202 /* Base */ = {isa = PBXFileReference; lastKnownFileType = text.plist.strings; name = Base; path = Base.lproj/Localizable.strings; sourceTree = "<group>"; };
+		F203 /* zh-Hans */ = {isa = PBXFileReference; lastKnownFileType = text.plist.strings; name = "zh-Hans"; path = "zh-Hans.lproj/Localizable.strings"; sourceTree = "<group>"; };
+		F204 /* TidyStep.entitlements */ = {isa = PBXFileReference; lastKnownFileType = text.plist.entitlements; path = TidyStep.entitlements; sourceTree = "<group>"; };
 		F301 /* TidyStepWidget.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = TidyStepWidget.swift; sourceTree = "<group>"; };
 		F302 /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
 		F303 /* TidyStepWidget.entitlements */ = {isa = PBXFileReference; lastKnownFileType = text.plist.entitlements; path = TidyStepWidget.entitlements; sourceTree = "<group>"; };
 		F304 /* Assets.xcassets */ = {isa = PBXFileReference; lastKnownFileType = folder.assetcatalog; path = Assets.xcassets; sourceTree = "<group>"; };
-		F401 /* WidgetKit.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = WidgetKit.framework; path = WidgetKit.framework; sourceTree = SDKROOT; };
+		F401 /* WidgetKit.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; path = WidgetKit.framework; sourceTree = SDKROOT; };
+		I001 /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -76,29 +103,34 @@
 			files = (
 			);
 			runOnlyForDeploymentPostprocessing = 0;
-			sourceTree = "<group>";
+		};
+		P701 /* Frameworks */ = {
+			isa = PBXFrameworksBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+				C401 /* WidgetKit.framework in Frameworks */,
+			);
+			runOnlyForDeploymentPostprocessing = 0;
 		};
 /* End PBXFrameworksBuildPhase section */
 
 /* Begin PBXGroup section */
+		187165982F542C8300776A3F /* Recovered References */ = {
+			isa = PBXGroup;
+			children = (
+				F401 /* WidgetKit.framework */,
+			);
+			name = "Recovered References";
+			sourceTree = "<group>";
+		};
 		G001 = {
 			isa = PBXGroup;
 			children = (
 				G002 /* TidyStep */,
 				G009 /* TidyStepWidget */,
 				G003 /* Products */,
+				187165982F542C8300776A3F /* Recovered References */,
 			);
-			sourceTree = "<group>";
-		};
-		G009 /* TidyStepWidget */ = {
-			isa = PBXGroup;
-			children = (
-				F301 /* TidyStepWidget.swift */,
-				F302 /* Info.plist */,
-				F303 /* TidyStepWidget.entitlements */,
-				F304 /* Assets.xcassets */,
-			);
-			path = TidyStepWidget;
 			sourceTree = "<group>";
 		};
 		G002 /* TidyStep */ = {
@@ -182,18 +214,17 @@
 			path = Resources;
 			sourceTree = "<group>";
 		};
-		I001 /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
-		VG01 /* Localizable.strings */ = {
-			isa = PBXVariantGroup;
+		G009 /* TidyStepWidget */ = {
+			isa = PBXGroup;
 			children = (
-				F202 /* Base */,
-				F203 /* zh-Hans */,
+				F301 /* TidyStepWidget.swift */,
+				F302 /* Info.plist */,
+				F303 /* TidyStepWidget.entitlements */,
+				F304 /* Assets.xcassets */,
 			);
-			name = Localizable.strings;
+			path = TidyStepWidget;
 			sourceTree = "<group>";
 		};
-		F202 /* Base */ = {isa = PBXFileReference; lastKnownFileType = text.plist.strings; name = Base; path = "Base.lproj/Localizable.strings"; sourceTree = "<group>"; };
-		F203 /* zh-Hans */ = {isa = PBXFileReference; lastKnownFileType = text.plist.strings; name = "zh-Hans"; path = "zh-Hans.lproj/Localizable.strings"; sourceTree = "<group>"; };
 /* End PBXGroup section */
 
 /* Begin PBXNativeTarget section */
@@ -212,6 +243,7 @@
 				D001 /* PBXTargetDependency */,
 			);
 			name = TidyStep;
+			productName = TidyStep;
 			productReference = E001 /* TidyStep.app */;
 			productType = "com.apple.product-type.application";
 		};
@@ -228,6 +260,7 @@
 			dependencies = (
 			);
 			name = TidyStepWidgetExtension;
+			productName = TidyStepWidgetExtension;
 			productReference = E002 /* TidyStepWidget.appex */;
 			productType = "com.apple.product-type.app-extension";
 		};
@@ -242,7 +275,7 @@
 				LastUpgradeCheck = 1500;
 			};
 			buildConfigurationList = C501 /* Build configuration list for PBXProject "TidyStep" */;
-			compatibilityVersion = "Xcode 14.0";
+			compatibilityVersion = "Xcode 13.0";
 			developmentRegion = en;
 			hasScannedForEncodings = 0;
 			knownRegions = (
@@ -261,39 +294,6 @@
 		};
 /* End PBXProject section */
 
-/* Begin PBXContainerItemProxy section */
-		B001 /* PBXContainerItemProxy */ = {
-			isa = PBXContainerItemProxy;
-			containerPortal = R001 /* Project object */;
-			proxyType = 1;
-			remoteGlobalIDString = T002 /* TidyStepWidgetExtension */;
-			remoteInfo = TidyStepWidgetExtension;
-		};
-/* End PBXContainerItemProxy section */
-
-/* Begin PBXCopyFilesBuildPhase section */
-		P801 /* Embed Foundation Extensions */ = {
-			isa = PBXCopyFilesBuildPhase;
-			buildActionMask = 2147483647;
-			dstPath = "";
-			dstSubfolderSpec = 13;
-			files = (
-				C801 /* TidyStepWidget.appex in Embed Foundation Extensions */,
-			);
-			name = "Embed Foundation Extensions";
-			runOnlyForDeploymentPostprocessing = 0;
-			sourceTree = "<group>";
-		};
-/* End PBXCopyFilesBuildPhase section */
-
-/* Begin PBXTargetDependency section */
-		D001 /* PBXTargetDependency */ = {
-			isa = PBXTargetDependency;
-			target = T002 /* TidyStepWidgetExtension */;
-			targetProxy = B001 /* PBXContainerItemProxy */;
-		};
-/* End PBXTargetDependency section */
-
 /* Begin PBXResourcesBuildPhase section */
 		P401 /* Resources */ = {
 			isa = PBXResourcesBuildPhase;
@@ -303,7 +303,14 @@
 				C202 /* Localizable.strings in Resources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
-			sourceTree = "<group>";
+		};
+		P601 /* Resources */ = {
+			isa = PBXResourcesBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+				C302W /* Assets.xcassets in Resources */,
+			);
+			runOnlyForDeploymentPostprocessing = 0;
 		};
 /* End PBXResourcesBuildPhase section */
 
@@ -335,11 +342,7 @@
 				C121 /* ShareSheet.swift in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
-			sourceTree = "<group>";
 		};
-/* End PBXSourcesBuildPhase section */
-
-/* Begin PBXSourcesBuildPhase section (Widget) */
 		P501 /* Sources */ = {
 			isa = PBXSourcesBuildPhase;
 			buildActionMask = 2147483647;
@@ -347,33 +350,28 @@
 				C301 /* TidyStepWidget.swift in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
-			sourceTree = "<group>";
 		};
 /* End PBXSourcesBuildPhase section */
 
-/* Begin PBXResourcesBuildPhase section (Widget) */
-		P601 /* Resources */ = {
-			isa = PBXResourcesBuildPhase;
-			buildActionMask = 2147483647;
-			files = (
-				C302W /* Assets.xcassets in Resources */,
-			);
-			runOnlyForDeploymentPostprocessing = 0;
-			sourceTree = "<group>";
+/* Begin PBXTargetDependency section */
+		D001 /* PBXTargetDependency */ = {
+			isa = PBXTargetDependency;
+			target = T002 /* TidyStepWidgetExtension */;
+			targetProxy = B001 /* PBXContainerItemProxy */;
 		};
-/* End PBXResourcesBuildPhase section */
+/* End PBXTargetDependency section */
 
-/* Begin PBXFrameworksBuildPhase section (Widget) */
-		P701 /* Frameworks */ = {
-			isa = PBXFrameworksBuildPhase;
-			buildActionMask = 2147483647;
-			files = (
-				C401 /* WidgetKit.framework in Frameworks */,
+/* Begin PBXVariantGroup section */
+		VG01 /* Localizable.strings */ = {
+			isa = PBXVariantGroup;
+			children = (
+				F202 /* Base */,
+				F203 /* zh-Hans */,
 			);
-			runOnlyForDeploymentPostprocessing = 0;
+			name = Localizable.strings;
 			sourceTree = "<group>";
 		};
-/* End PBXFrameworksBuildPhase section */
+/* End PBXVariantGroup section */
 
 /* Begin XCBuildConfiguration section */
 		X001 /* Debug */ = {
@@ -434,14 +432,14 @@
 			buildSettings = {
 				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
 				ASSETCATALOG_COMPILER_GLOBAL_ACCENT_COLOR_NAME = AccentColor;
+				CODE_SIGN_ENTITLEMENTS = TidyStep/Resources/TidyStep.entitlements;
 				CODE_SIGN_STYLE = Automatic;
 				CURRENT_PROJECT_VERSION = 1;
 				DEVELOPMENT_ASSET_PATHS = "";
 				ENABLE_PREVIEWS = YES;
 				GENERATE_INFOPLIST_FILE = NO;
-				CODE_SIGN_ENTITLEMENTS = TidyStep/Resources/TidyStep.entitlements;
 				INFOPLIST_FILE = TidyStep/Resources/Info.plist;
-				INFOPLIST_KEY_CFBundleDisplayName = "TidyStep";
+				INFOPLIST_KEY_CFBundleDisplayName = TidyStep;
 				INFOPLIST_KEY_UIApplicationSceneManifest_Generation = YES;
 				INFOPLIST_KEY_UIApplicationSupportsIndirectInputEvents = YES;
 				INFOPLIST_KEY_UILaunchScreen_Generation = YES;
@@ -456,7 +454,7 @@
 				PRODUCT_NAME = "$(TARGET_NAME)";
 				SWIFT_EMIT_LOC_STRINGS = YES;
 				SWIFT_VERSION = 5.0;
-				TARGETED_DEVICE_FAMILY = "1,2";
+				TARGETED_DEVICE_FAMILY = 1;
 			};
 			name = Debug;
 		};
@@ -465,14 +463,14 @@
 			buildSettings = {
 				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
 				ASSETCATALOG_COMPILER_GLOBAL_ACCENT_COLOR_NAME = AccentColor;
+				CODE_SIGN_ENTITLEMENTS = TidyStep/Resources/TidyStep.entitlements;
 				CODE_SIGN_STYLE = Automatic;
 				CURRENT_PROJECT_VERSION = 1;
 				DEVELOPMENT_ASSET_PATHS = "";
 				ENABLE_PREVIEWS = YES;
 				GENERATE_INFOPLIST_FILE = NO;
-				CODE_SIGN_ENTITLEMENTS = TidyStep/Resources/TidyStep.entitlements;
 				INFOPLIST_FILE = TidyStep/Resources/Info.plist;
-				INFOPLIST_KEY_CFBundleDisplayName = "TidyStep";
+				INFOPLIST_KEY_CFBundleDisplayName = TidyStep;
 				INFOPLIST_KEY_UIApplicationSceneManifest_Generation = YES;
 				INFOPLIST_KEY_UIApplicationSupportsIndirectInputEvents = YES;
 				INFOPLIST_KEY_UILaunchScreen_Generation = YES;
@@ -487,7 +485,7 @@
 				PRODUCT_NAME = "$(TARGET_NAME)";
 				SWIFT_EMIT_LOC_STRINGS = YES;
 				SWIFT_VERSION = 5.0;
-				TARGETED_DEVICE_FAMILY = "1,2";
+				TARGETED_DEVICE_FAMILY = 1;
 			};
 			name = Release;
 		};
@@ -500,7 +498,7 @@
 				DEVELOPMENT_ASSET_PATHS = "";
 				GENERATE_INFOPLIST_FILE = YES;
 				INFOPLIST_FILE = TidyStepWidget/Info.plist;
-				INFOPLIST_KEY_CFBundleDisplayName = "TidyStep";
+				INFOPLIST_KEY_CFBundleDisplayName = TidyStep;
 				INFOPLIST_KEY_NSHumanReadableCopyright = "";
 				IPHONEOS_DEPLOYMENT_TARGET = 15.0;
 				LD_RUNPATH_SEARCH_PATHS = (
@@ -527,7 +525,7 @@
 				DEVELOPMENT_ASSET_PATHS = "";
 				GENERATE_INFOPLIST_FILE = YES;
 				INFOPLIST_FILE = TidyStepWidget/Info.plist;
-				INFOPLIST_KEY_CFBundleDisplayName = "TidyStep";
+				INFOPLIST_KEY_CFBundleDisplayName = TidyStep;
 				INFOPLIST_KEY_NSHumanReadableCopyright = "";
 				IPHONEOS_DEPLOYMENT_TARGET = 15.0;
 				LD_RUNPATH_SEARCH_PATHS = (
