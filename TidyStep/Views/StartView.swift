@@ -152,7 +152,7 @@ struct WeightInputSheet: View {
             .toolbar {
                 ToolbarItem(placement: .cancellationAction) {
                     Button(appLanguage.string("weight_cancel")) { onDismiss() }
-                        .foregroundStyle(Color(hex: 0x60A5FA))
+                        .foregroundStyle(Color(hex: 0x5EEAD4))
                 }
                 ToolbarItem(placement: .confirmationAction) {
                     Button {
@@ -161,7 +161,7 @@ struct WeightInputSheet: View {
                     } label: {
                         Text(appLanguage.string("weight_save"))
                             .fontWeight(.semibold)
-                            .foregroundStyle(Color(hex: 0x60A5FA))
+                            .foregroundStyle(Color(hex: 0x5EEAD4))
                     }
                 }
             }

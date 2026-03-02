@@ -693,17 +693,18 @@ struct StatisticsView: View {
         let barMaxHeight: CGFloat = 80
         let h = value <= 0 ? 4 : max(4, CGFloat(value) / CGFloat(max(1, maxValue)) * barMaxHeight)
         return VStack(spacing: 2) {
-            ZStack(alignment: .bottom) {
-                RoundedRectangle(cornerRadius: 2)
-                    .fill(Color(hex: 0x5EEAD4))
-                    .frame(width: max(2, barWidth - 2), height: h)
+            RoundedRectangle(cornerRadius: 2)
+                .fill(Color(hex: 0x5EEAD4))
+                .frame(width: max(2, barWidth - 2), height: h)
+                .frame(height: barMaxHeight, alignment: .bottom)
+            // 14 天及以上暂时取消柱形图底部的日期标注
+            if days < 14 {
+                Text(shortDayLabel(item.dayStart))
+                    .font(.system(size: dayLabelFontSize(for: days), weight: .medium))
+                    .foregroundStyle(Color(hex: 0x6B7280))
+                    .lineLimit(1)
+                    .minimumScaleFactor(0.5)
             }
-            .frame(height: barMaxHeight)
-            Text(shortDayLabel(item.dayStart))
-                .font(.system(size: dayLabelFontSize(for: days), weight: .medium))
-                .foregroundStyle(Color(hex: 0x6B7280))
-                .lineLimit(1)
-                .minimumScaleFactor(0.5)
         }
     }
 
@@ -831,6 +832,7 @@ struct StatisticsView: View {
                             RoundedRectangle(cornerRadius: 4)
                                 .fill(Color(hex: 0x5EEAD4))
                                 .frame(width: 14, height: max(4, CGFloat(item.sessionCount) / CGFloat(maxCount) * 60))
+                                .frame(height: 60, alignment: .bottom)
                             Text(shortDayLabel(item.dayStart))
                                 .font(.system(size: 10, weight: .medium))
                                 .foregroundStyle(Color(hex: 0x6B7280))
