@@ -60,8 +60,12 @@ struct TidyStepProvider: TimelineProvider {
         let appLanguage = def?.string(forKey: "widget_app_language")
             ?? (Self.regionCode == "CN" ? "zh-Hans" : "en")
         let sessionsThisWeek = def?.integer(forKey: "widget_sessions_this_week") ?? 0
-        let lastTs = def?.double(forKey: "widget_last_session_date")
-        let lastSessionDate = lastTs.map { Date(timeIntervalSince1970: $0) }
+        let lastTs = def?.object(forKey: "widget_last_session_date") as? Double
+        let lastSessionDate: Date? = {
+            guard let ts = lastTs, ts > 0 else { return nil }
+            let d = Date(timeIntervalSince1970: ts)
+            return d <= Date() ? d : nil
+        }()
         let reminderEnabled = def?.bool(forKey: "widget_reminder_enabled") ?? false
         let hour = def?.integer(forKey: "widget_reminder_hour") ?? 20
         let minute = def?.integer(forKey: "widget_reminder_minute") ?? 0
@@ -119,6 +123,7 @@ struct TidyStepWidgetView: View {
         let lang = entry.appLanguage
         return ZStack(alignment: .bottomTrailing) {
             backgroundColor
+                .frame(maxWidth: .infinity, maxHeight: .infinity)
             VStack(alignment: .leading, spacing: 6) {
                 Text(WidgetStrings.title(lang))
                     .font(.caption2)
@@ -166,6 +171,7 @@ struct TidyStepWidgetView: View {
         let trailingForIcon = iconWidth + iconPadding * 2
         return ZStack(alignment: .bottomTrailing) {
             backgroundColor
+                .frame(maxWidth: .infinity, maxHeight: .infinity)
             VStack(alignment: .leading, spacing: 4) {
                 Text(WidgetStrings.title(lang))
                     .font(.caption2)
