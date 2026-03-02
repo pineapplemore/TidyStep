@@ -141,6 +141,12 @@ extension StorageManager {
         )
     }
 
+    /// 有整理记录的日期集合（当天 0 点），用于日历标蓝圈与限制仅可选有数据日。
+    var dayStartsWithSessions: Set<Date> {
+        let cal = Calendar.current
+        return Set(sessions.map { cal.startOfDay(for: $0.endDate) })
+    }
+
     /// Stats for a single calendar day (for 2-day preview tap detail).
     func statsForDay(dayStart: Date) -> StatsSummary {
         let cal = Calendar.current

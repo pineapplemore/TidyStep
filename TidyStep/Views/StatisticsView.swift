@@ -123,6 +123,143 @@ private struct DayDetailSheetView: View {
     }
 }
 
+/// 自定义日历：有记录的日期标蓝圈（统一小圆不重叠），仅可选有数据日
+private struct SessionCalendarView: View {
+    @Binding var selectedDate: Date
+    let daysWithData: Set<Date>
+    /// 点击有数据的日期时调用，用于直接弹出该日统计详情
+    var onDayTapped: ((Date) -> Void)?
+    private let cal = Calendar.current
+    /// 数字背后的圆形背景直径，统一缩小避免相邻重叠
+    private let circleBackgroundSize: CGFloat = 24
+    @State private var displayedMonthStart: Date
+
+    init(selectedDate: Binding<Date>, daysWithData: Set<Date>, onDayTapped: ((Date) -> Void)? = nil) {
+        _selectedDate = selectedDate
+        self.daysWithData = daysWithData
+        self.onDayTapped = onDayTapped
+        let start = Calendar.current.startOfDay(for: selectedDate.wrappedValue)
+        _displayedMonthStart = State(initialValue: Calendar.current.dateInterval(of: .month, for: start)?.start ?? start)
+    }
+
+    var body: some View {
+        VStack(spacing: 8) {
+            HStack {
+                Button {
+                    if let prev = cal.date(byAdding: .month, value: -1, to: displayedMonthStart) {
+                        displayedMonthStart = prev
+                    }
+                } label: {
+                    Image(systemName: "chevron.left")
+                        .font(.body.weight(.medium))
+                        .foregroundStyle(Color(hex: 0x9CA3AF))
+                }
+                Spacer()
+                Text(monthYearString(displayedMonthStart))
+                    .font(.subheadline.weight(.semibold))
+                    .foregroundStyle(.white)
+                Spacer()
+                Button {
+                    if let next = cal.date(byAdding: .month, value: 1, to: displayedMonthStart) {
+                        displayedMonthStart = next
+                    }
+                } label: {
+                    Image(systemName: "chevron.right")
+                        .font(.body.weight(.medium))
+                        .foregroundStyle(Color(hex: 0x9CA3AF))
+                }
+            }
+            LazyVGrid(columns: Array(repeating: GridItem(.flexible(), spacing: 4), count: 7), spacing: 6) {
+                ForEach(weekdaySymbols(), id: \.self) { symbol in
+                    Text(symbol)
+                        .font(.system(size: 10, weight: .medium))
+                        .foregroundStyle(Color(hex: 0x6B7280))
+                }
+                ForEach(Array(daysInGrid().enumerated()), id: \.offset) { _, cell in
+                    dayCell(cell)
+                }
+            }
+        }
+        .padding(12)
+        .background(Color(hex: 0x1A1A1E))
+        .clipShape(RoundedRectangle(cornerRadius: 12))
+    }
+
+    private func weekdaySymbols() -> [String] {
+        let first = cal.firstWeekday
+        let symbols = cal.veryShortWeekdaySymbols
+        return (0..<7).map { symbols[(first - 1 + $0) % 7] }
+    }
+
+    private struct DayCell: Hashable {
+        let day: Int?
+        let date: Date?
+    }
+
+    private func daysInGrid() -> [DayCell] {
+        guard let interval = cal.dateInterval(of: .month, for: displayedMonthStart),
+              let count = cal.range(of: .day, in: .month, for: displayedMonthStart)?.count else { return [] }
+        let firstWeekday = cal.component(.weekday, from: interval.start)
+        let offset = firstWeekday - cal.firstWeekday
+        let startOffset = offset < 0 ? offset + 7 : offset
+        var cells: [DayCell] = []
+        for _ in 0..<startOffset {
+            cells.append(DayCell(day: nil, date: nil))
+        }
+        for day in 1...count {
+            if let date = cal.date(bySetting: .day, value: day, of: interval.start) {
+                cells.append(DayCell(day: day, date: cal.startOfDay(for: date)))
+            }
+        }
+        while cells.count < 42 {
+            cells.append(DayCell(day: nil, date: nil))
+        }
+        return cells
+    }
+
+    @ViewBuilder
+    private func dayCell(_ cell: DayCell) -> some View {
+        let hasData = cell.date.map { daysWithData.contains($0) } ?? false
+        let isToday = cell.date.map { cal.isDateInToday($0) } ?? false
+        let showCircle = hasData || isToday
+        let circleColor: Color = isToday ? Color(hex: 0x38BDF8) : Color(hex: 0x5EEAD4)
+        let content = ZStack {
+            if let day = cell.day {
+                if showCircle {
+                    Circle()
+                        .fill(circleColor)
+                        .frame(width: circleBackgroundSize, height: circleBackgroundSize)
+                }
+                Text("\(day)")
+                    .font(.system(size: 13, weight: showCircle ? .semibold : .regular))
+                    .foregroundStyle(showCircle ? .white : Color(hex: 0x6B7280))
+            }
+        }
+        .frame(height: 36)
+        .contentShape(Rectangle())
+
+        if hasData, let date = cell.date {
+            Button {
+                selectedDate = date
+                onDayTapped?(date)
+            } label: {
+                content
+            }
+            .buttonStyle(.plain)
+        } else {
+            content
+                .allowsHitTesting(false)
+        }
+    }
+
+    private func monthYearString(_ monthStart: Date) -> String {
+        let formatter = DateFormatter()
+        formatter.locale = cal.locale
+        formatter.setLocalizedDateFormatFromTemplate("yMMMM")
+        return formatter.string(from: monthStart)
+    }
+}
+
 /// 汇总周期：近 7 / 14 / 30 / 60 / 90 / 120 / 150 / 180 / 210 / 240 / 270 / 300 / 330 / 360 天
 private enum SummaryPeriod: String, CaseIterable {
     case last7Days
@@ -551,12 +688,17 @@ struct StatisticsView: View {
         }
     }
 
+    /// 单根柱子：无数据时贴底显示（固定高度区域，柱从底部向上生长）
     private func barColumn(item: DayChartItem, barWidth: CGFloat, days: Int, value: Double, maxValue: Double) -> some View {
-        let h = max(4, CGFloat(value) / CGFloat(max(1, maxValue)) * 80)
+        let barMaxHeight: CGFloat = 80
+        let h = value <= 0 ? 4 : max(4, CGFloat(value) / CGFloat(max(1, maxValue)) * barMaxHeight)
         return VStack(spacing: 2) {
-            RoundedRectangle(cornerRadius: 2)
-                .fill(Color(hex: 0x5EEAD4))
-                .frame(width: max(2, barWidth - 2), height: h)
+            ZStack(alignment: .bottom) {
+                RoundedRectangle(cornerRadius: 2)
+                    .fill(Color(hex: 0x5EEAD4))
+                    .frame(width: max(2, barWidth - 2), height: h)
+            }
+            .frame(height: barMaxHeight)
             Text(shortDayLabel(item.dayStart))
                 .font(.system(size: dayLabelFontSize(for: days), weight: .medium))
                 .foregroundStyle(Color(hex: 0x6B7280))
@@ -565,13 +707,14 @@ struct StatisticsView: View {
         }
     }
 
-    /// ≥14 天时显示：日期在上、查看按钮在下，避免日历弹层挡住按钮
+    /// ≥14 天时显示：自定义日历（有记录日标蓝圈、仅可选有数据日）+ 查看按钮
     private var datePickerRow: some View {
         let cal = Calendar.current
+        let daysWithData = storage.dayStartsWithSessions
         return VStack(alignment: .leading, spacing: 12) {
-            DatePicker("", selection: $queryDate, displayedComponents: .date)
-                .labelsHidden()
-                .tint(.white)
+            SessionCalendarView(selectedDate: $queryDate, daysWithData: daysWithData) { dayStart in
+                selectedDayForDetail = DayDetailItem(dayStart: dayStart)
+            }
             Button {
                 let dayStart = cal.startOfDay(for: queryDate)
                 selectedDayForDetail = DayDetailItem(dayStart: dayStart)
