@@ -122,8 +122,9 @@ struct TidyStepWidgetView: View {
     private let labelColor = Color(red: 0.60, green: 0.63, blue: 0.70)
     private let mintColor = Color(red: 94/255, green: 234/255, blue: 212/255)
 
+    @ViewBuilder
     var body: some View {
-        Group {
+        let content = Group {
             switch family {
             case .systemMedium:
                 mediumView
@@ -131,8 +132,14 @@ struct TidyStepWidgetView: View {
                 smallView
             }
         }
-        .containerBackground(for: .widget) {
-            backgroundColor
+        if #available(iOSApplicationExtension 17.0, *) {
+            content.containerBackground(for: .widget) {
+                backgroundColor
+            }
+        } else {
+            content
+                .frame(maxWidth: .infinity, maxHeight: .infinity)
+                .background(backgroundColor)
         }
     }
 
@@ -280,12 +287,21 @@ struct TidyStepWidget: Widget {
     let kind: String = "TidyStepWidget"
 
     var body: some WidgetConfiguration {
-        StaticConfiguration(kind: kind, provider: TidyStepProvider()) { entry in
-            TidyStepWidgetView(entry: entry)
+        if #available(iOSApplicationExtension 17.0, *) {
+            StaticConfiguration(kind: kind, provider: TidyStepProvider()) { entry in
+                TidyStepWidgetView(entry: entry)
+            }
+            .configurationDisplayName("TidyStep")
+            .description("This week's sessions and last tidy.")
+            .supportedFamilies([.systemSmall, .systemMedium])
+            .contentMarginsDisabled()
+        } else {
+            StaticConfiguration(kind: kind, provider: TidyStepProvider()) { entry in
+                TidyStepWidgetView(entry: entry)
+            }
+            .configurationDisplayName("TidyStep")
+            .description("This week's sessions and last tidy.")
+            .supportedFamilies([.systemSmall, .systemMedium])
         }
-        .configurationDisplayName("TidyStep")
-        .description("This week's sessions and last tidy.")
-        .supportedFamilies([.systemSmall, .systemMedium])
-        .contentMarginsDisabled()
     }
 }
