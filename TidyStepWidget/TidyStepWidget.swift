@@ -287,21 +287,12 @@ struct TidyStepWidget: Widget {
     let kind: String = "TidyStepWidget"
 
     var body: some WidgetConfiguration {
-        if #available(iOSApplicationExtension 17.0, *) {
-            StaticConfiguration(kind: kind, provider: TidyStepProvider()) { entry in
-                TidyStepWidgetView(entry: entry)
-            }
-            .configurationDisplayName("TidyStep")
-            .description("This week's sessions and last tidy.")
-            .supportedFamilies([.systemSmall, .systemMedium])
-            .contentMarginsDisabled()
-        } else {
-            StaticConfiguration(kind: kind, provider: TidyStepProvider()) { entry in
-                TidyStepWidgetView(entry: entry)
-            }
-            .configurationDisplayName("TidyStep")
-            .description("This week's sessions and last tidy.")
-            .supportedFamilies([.systemSmall, .systemMedium])
+        StaticConfiguration(kind: kind, provider: TidyStepProvider()) { entry in
+            TidyStepWidgetView(entry: entry)
         }
+        .configurationDisplayName("TidyStep")
+        .description("This week's sessions and last tidy.")
+        .supportedFamilies([.systemSmall, .systemMedium])
+        // 未加 contentMarginsDisabled() 以避免 if #available 导致两分支类型不一致编译报错；iOS 17+ 背景仍由 containerBackground 铺满
     }
 }
