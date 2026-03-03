@@ -90,6 +90,8 @@
 "history_empty" = "No sessions yet. Start cleaning to see your history here.";
 "history_subscribe_to_unlock" = "Subscribe to view all your history.";
 "history_subscribe_hint" = "Subscribe to unlock full history.";
+"history_delete" = "Delete";
+"history_delete_confirm" = "Delete this record?";
 
 /* Settings */
 "settings_weight_section" = "Calorie accuracy";

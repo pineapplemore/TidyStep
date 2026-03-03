@@ -89,6 +89,15 @@ final class StorageManager: ObservableObject {
         pushWidgetData()
     }
 
+    /// 删除指定 id 的历史记录，并同步统计与小组件。
+    func removeSession(id: UUID) {
+        sessions.removeAll { $0.id == id }
+        if let data = try? JSONEncoder().encode(sessions) {
+            defaults.set(data, forKey: historyKey)
+        }
+        pushWidgetData()
+    }
+
     private func pushWidgetData() {
         WidgetDataManager.update(
             sessions: sessions,

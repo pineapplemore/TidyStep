@@ -11,6 +11,7 @@ struct HistoryView: View {
     @EnvironmentObject var subscription: SubscriptionManager
     @State private var showPaywall = false
     @State private var shareItem: ShareItem?
+    @State private var sessionToConfirmDelete: CleaningSession?
 
     /// 非订阅时只显示最新一条；订阅时显示全部。
     private var displayedSessions: [CleaningSession] {
@@ -60,6 +61,13 @@ struct HistoryView: View {
                             HistoryRow(session: session)
                                 .listRowBackground(Color(hex: 0x1A1A1E))
                                 .listRowSeparatorTint(Color(hex: 0x2D2D32))
+                                .contextMenu {
+                                    Button(role: .destructive) {
+                                        sessionToConfirmDelete = session
+                                    } label: {
+                                        Text(appLanguage.string("history_delete"))
+                                    }
+                                }
                         }
                         if showSubscribeHint {
                             Section {
@@ -134,6 +142,50 @@ struct HistoryView: View {
                 PaywallView(onDismiss: { showPaywall = false })
                     .environmentObject(subscription)
                     .environmentObject(appLanguage)
+            }
+            .overlay {
+                if let session = sessionToConfirmDelete {
+                    ZStack {
+                        Color.black.opacity(0.4)
+                            .ignoresSafeArea()
+                            .onTapGesture { sessionToConfirmDelete = nil }
+                        VStack(spacing: 20) {
+                            Text(appLanguage.string("history_delete_confirm"))
+                                .font(.headline)
+                                .foregroundStyle(.white)
+                                .multilineTextAlignment(.center)
+                                .padding(.horizontal)
+                            HStack(spacing: 16) {
+                                Button {
+                                    sessionToConfirmDelete = nil
+                                } label: {
+                                    Text(appLanguage.string("weight_cancel"))
+                                        .fontWeight(.medium)
+                                        .foregroundStyle(Color(hex: 0x9CA3AF))
+                                        .frame(maxWidth: .infinity)
+                                        .padding(.vertical, 12)
+                                }
+                                Button {
+                                    storage.removeSession(id: session.id)
+                                    sessionToConfirmDelete = nil
+                                } label: {
+                                    Text(appLanguage.string("history_delete"))
+                                        .fontWeight(.semibold)
+                                        .foregroundStyle(.black)
+                                        .frame(maxWidth: .infinity)
+                                        .padding(.vertical, 12)
+                                        .background(Color(hex: 0x5EEAD4))
+                                        .clipShape(Capsule())
+                                }
+                            }
+                            .padding(.horizontal)
+                        }
+                        .padding(24)
+                        .background(Color(hex: 0x1A1A1E))
+                        .clipShape(RoundedRectangle(cornerRadius: 16))
+                        .padding(40)
+                    }
+                }
             }
         }
     }

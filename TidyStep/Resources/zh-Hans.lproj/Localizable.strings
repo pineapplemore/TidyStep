@@ -90,6 +90,8 @@
 "history_empty" = "还没有记录。开始整理后这里会显示历史。";
 "history_subscribe_to_unlock" = "订阅后可查看全部记录。";
 "history_subscribe_hint" = "订阅后可解锁完整历史记录。";
+"history_delete" = "删除";
+"history_delete_confirm" = "确定删除这条记录？";
 
 /* Settings */
 "settings_weight_section" = "卡路里精度";
