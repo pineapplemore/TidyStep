@@ -123,24 +123,17 @@ struct TidyStepWidgetView: View {
     private let mintColor = Color(red: 94/255, green: 234/255, blue: 212/255)
 
     var body: some View {
-        GeometryReader { geo in
-            ZStack {
-                backgroundColor
-                    .frame(width: geo.size.width, height: geo.size.height)
-                    .ignoresSafeArea(.all)
-                Group {
-                    switch family {
-                    case .systemMedium:
-                        mediumView
-                    default:
-                        smallView
-                    }
-                }
+        Group {
+            switch family {
+            case .systemMedium:
+                mediumView
+            default:
+                smallView
             }
-            .frame(width: geo.size.width, height: geo.size.height)
-            .clipped()
         }
-        .frame(maxWidth: .infinity, maxHeight: .infinity)
+        .containerBackground(for: .widget) {
+            backgroundColor
+        }
     }
 
     private var smallView: some View {
@@ -293,6 +286,6 @@ struct TidyStepWidget: Widget {
         .configurationDisplayName("TidyStep")
         .description("This week's sessions and last tidy.")
         .supportedFamilies([.systemSmall, .systemMedium])
-        // 若使用 Xcode 15+ / iOS 17 SDK，可取消下行注释以取消系统 margin、让背景铺满：.contentMarginsDisabled()
+        .contentMarginsDisabled()
     }
 }
