@@ -148,7 +148,7 @@ struct TidyStepWidgetView: View {
         let contentPadding: CGFloat = 14
         let iconPadding: CGFloat = 10
         let iconWidth: CGFloat = 52
-        return ZStack(alignment: .bottomTrailing) {
+        return ZStack(alignment: .topTrailing) {
             VStack(alignment: .leading, spacing: 5) {
                 Text(WidgetStrings.title(lang))
                     .font(.caption2)
@@ -190,7 +190,7 @@ struct TidyStepWidgetView: View {
                 }
             }
             .frame(maxWidth: .infinity, maxHeight: .infinity, alignment: .leading)
-            .padding(EdgeInsets(top: contentPadding, leading: contentPadding, bottom: contentPadding, trailing: contentPadding + iconWidth + iconPadding))
+            .padding(contentPadding)
             Image("WidgetIcon")
                 .resizable()
                 .scaledToFit()
