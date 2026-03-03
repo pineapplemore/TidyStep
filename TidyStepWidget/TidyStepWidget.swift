@@ -123,12 +123,24 @@ struct TidyStepWidgetView: View {
     private let mintColor = Color(red: 94/255, green: 234/255, blue: 212/255)
 
     var body: some View {
-        switch family {
-        case .systemMedium:
-            mediumView
-        default:
-            smallView
+        GeometryReader { geo in
+            ZStack {
+                backgroundColor
+                    .frame(width: geo.size.width, height: geo.size.height)
+                    .ignoresSafeArea(.all)
+                Group {
+                    switch family {
+                    case .systemMedium:
+                        mediumView
+                    default:
+                        smallView
+                    }
+                }
+            }
+            .frame(width: geo.size.width, height: geo.size.height)
+            .clipped()
         }
+        .frame(maxWidth: .infinity, maxHeight: .infinity)
     }
 
     private var smallView: some View {
@@ -184,9 +196,6 @@ struct TidyStepWidgetView: View {
                 .frame(width: 52, height: 52)
                 .padding(iconPadding)
         }
-        .frame(maxWidth: .infinity, maxHeight: .infinity)
-        .background(backgroundColor)
-        .clipped()
     }
 
     private var mediumView: some View {
@@ -255,9 +264,6 @@ struct TidyStepWidgetView: View {
                 .frame(width: iconWidth, height: iconWidth)
                 .padding(iconPadding)
         }
-        .frame(maxWidth: .infinity, maxHeight: .infinity)
-        .background(backgroundColor)
-        .clipped()
     }
 
     private func formatLastSessionLine(durationSeconds: Int, steps: Int, calories: Double, lang: String) -> String {

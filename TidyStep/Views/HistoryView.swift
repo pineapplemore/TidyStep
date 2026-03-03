@@ -61,12 +61,9 @@ struct HistoryView: View {
                             HistoryRow(session: session)
                                 .listRowBackground(Color(hex: 0x1A1A1E))
                                 .listRowSeparatorTint(Color(hex: 0x2D2D32))
-                                .contextMenu {
-                                    Button(role: .destructive) {
-                                        sessionToConfirmDelete = session
-                                    } label: {
-                                        Text(appLanguage.string("history_delete"))
-                                    }
+                                .contentShape(Rectangle())
+                                .onLongPressGesture {
+                                    sessionToConfirmDelete = session
                                 }
                         }
                         if showSubscribeHint {
