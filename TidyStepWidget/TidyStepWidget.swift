@@ -136,8 +136,6 @@ struct TidyStepWidgetView: View {
         let contentPadding: CGFloat = 14
         let iconPadding: CGFloat = 10
         return ZStack(alignment: .bottomTrailing) {
-            backgroundColor
-                .frame(maxWidth: .infinity, maxHeight: .infinity)
             VStack(alignment: .leading, spacing: 5) {
                 Text(WidgetStrings.title(lang))
                     .font(.caption2)
@@ -186,6 +184,8 @@ struct TidyStepWidgetView: View {
                 .frame(width: 52, height: 52)
                 .padding(iconPadding)
         }
+        .frame(maxWidth: .infinity, maxHeight: .infinity)
+        .background(backgroundColor)
         .clipped()
     }
 
@@ -196,8 +196,6 @@ struct TidyStepWidgetView: View {
         let iconPadding: CGFloat = 10
         let trailingForIcon = iconWidth + iconPadding * 2
         return ZStack(alignment: .bottomTrailing) {
-            backgroundColor
-                .frame(maxWidth: .infinity, maxHeight: .infinity)
             VStack(alignment: .leading, spacing: 4) {
                 Text(WidgetStrings.title(lang))
                     .font(.caption2)
@@ -257,6 +255,8 @@ struct TidyStepWidgetView: View {
                 .frame(width: iconWidth, height: iconWidth)
                 .padding(iconPadding)
         }
+        .frame(maxWidth: .infinity, maxHeight: .infinity)
+        .background(backgroundColor)
         .clipped()
     }
 
