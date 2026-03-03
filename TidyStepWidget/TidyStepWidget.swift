@@ -22,6 +22,9 @@ private enum WidgetStrings {
     static func daysAgo(_ lang: String, days: Int) -> String {
         lang == "zh-Hans" ? "\(days) 天前" : "\(days) days ago"
     }
+    static func minutes(_ lang: String) -> String { lang == "zh-Hans" ? "分钟" : "min" }
+    static func stepsLabel(_ lang: String) -> String { lang == "zh-Hans" ? "步" : "steps" }
+    static func caloriesLabel(_ lang: String) -> String { lang == "zh-Hans" ? "卡" : "cal" }
     /// 小组件未收到 App 写入时的兜底句
     static func fallbackEncouragement(_ lang: String) -> String {
         lang == "zh-Hans" ? "今天开始整理吧！" : "Start a tidy today!"
@@ -32,6 +35,9 @@ struct TidyStepEntry: TimelineEntry {
     let date: Date
     let sessionsThisWeek: Int
     let lastSessionDate: Date?
+    let lastSessionDurationSeconds: Int?
+    let lastSessionSteps: Int?
+    let lastSessionCalories: Double?
     let reminderEnabled: Bool
     let reminderText: String
     /// "en" or "zh-Hans", from App Group (app syncs when language changes)
@@ -42,7 +48,7 @@ struct TidyStepEntry: TimelineEntry {
 
 struct TidyStepProvider: TimelineProvider {
     func placeholder(in context: Context) -> TidyStepEntry {
-        TidyStepEntry(date: Date(), sessionsThisWeek: 0, lastSessionDate: nil, reminderEnabled: false, reminderText: "", appLanguage: "en", widgetEncouragementText: "")
+        TidyStepEntry(date: Date(), sessionsThisWeek: 0, lastSessionDate: nil, lastSessionDurationSeconds: nil, lastSessionSteps: nil, lastSessionCalories: nil, reminderEnabled: false, reminderText: "", appLanguage: "en", widgetEncouragementText: "")
     }
 
     func getSnapshot(in context: Context, completion: @escaping (TidyStepEntry) -> Void) {
@@ -72,10 +78,16 @@ struct TidyStepProvider: TimelineProvider {
         let intervalDays = def?.integer(forKey: "widget_reminder_interval_days") ?? 0
         let reminderText = formatReminderText(lang: appLanguage, intervalDays: intervalDays, hour: hour, minute: minute, enabled: reminderEnabled)
         let encouragementText = def?.string(forKey: "widget_encouragement_text") ?? ""
+        let lastDuration = def?.object(forKey: "widget_last_duration_seconds") as? Int
+        let lastSteps = def?.object(forKey: "widget_last_steps") as? Int
+        let lastCalories = def?.object(forKey: "widget_last_calories") as? Double
         return TidyStepEntry(
             date: Date(),
             sessionsThisWeek: sessionsThisWeek,
             lastSessionDate: lastSessionDate,
+            lastSessionDurationSeconds: lastDuration,
+            lastSessionSteps: lastSteps,
+            lastSessionCalories: lastCalories,
             reminderEnabled: reminderEnabled,
             reminderText: reminderText,
             appLanguage: appLanguage,
@@ -121,17 +133,19 @@ struct TidyStepWidgetView: View {
 
     private var smallView: some View {
         let lang = entry.appLanguage
+        let contentPadding: CGFloat = 14
+        let iconPadding: CGFloat = 10
         return ZStack(alignment: .bottomTrailing) {
             backgroundColor
                 .frame(maxWidth: .infinity, maxHeight: .infinity)
-            VStack(alignment: .leading, spacing: 6) {
+            VStack(alignment: .leading, spacing: 5) {
                 Text(WidgetStrings.title(lang))
                     .font(.caption2)
                     .fontWeight(.medium)
                     .foregroundColor(titleColor)
                 HStack(alignment: .firstTextBaseline, spacing: 4) {
                     Text("\(entry.sessionsThisWeek)")
-                        .font(.system(size: 24, weight: .semibold, design: .rounded))
+                        .font(.system(size: 22, weight: .semibold, design: .rounded))
                         .monospacedDigit()
                         .foregroundColor(valueColor)
                     Text(WidgetStrings.sessions(lang))
@@ -140,34 +154,46 @@ struct TidyStepWidgetView: View {
                 }
                 if let last = entry.lastSessionDate {
                     Text(daysAgo(last, lang: lang))
-                        .font(.caption2)
+                        .font(.system(size: 9))
                         .foregroundColor(labelColor)
+                        .lineLimit(1)
+                    if let dur = entry.lastSessionDurationSeconds, let steps = entry.lastSessionSteps, let cal = entry.lastSessionCalories {
+                        Text(formatLastSessionLine(durationSeconds: dur, steps: steps, calories: cal, lang: lang))
+                            .font(.system(size: 8))
+                            .foregroundColor(labelColor.opacity(0.9))
+                            .lineLimit(1)
+                            .minimumScaleFactor(0.7)
+                    }
                 } else {
                     Text(WidgetStrings.noTidyYet(lang))
-                        .font(.caption2)
+                        .font(.system(size: 9))
                         .foregroundColor(labelColor.opacity(0.8))
+                        .lineLimit(1)
                 }
                 if entry.reminderEnabled && !entry.reminderText.isEmpty {
                     Text(entry.reminderText)
-                        .font(.system(size: 9))
+                        .font(.system(size: 8))
                         .foregroundColor(labelColor.opacity(0.7))
+                        .lineLimit(1)
+                        .minimumScaleFactor(0.8)
                 }
             }
             .frame(maxWidth: .infinity, maxHeight: .infinity, alignment: .leading)
-            .padding(12)
+            .padding(contentPadding)
             Image("WidgetIcon")
                 .resizable()
                 .scaledToFit()
-                .frame(width: 56, height: 56)
-                .padding(8)
+                .frame(width: 52, height: 52)
+                .padding(iconPadding)
         }
         .clipped()
     }
 
     private var mediumView: some View {
         let lang = entry.appLanguage
-        let iconWidth: CGFloat = 72
-        let iconPadding: CGFloat = 8
+        let iconWidth: CGFloat = 68
+        let contentPadding: CGFloat = 16
+        let iconPadding: CGFloat = 10
         let trailingForIcon = iconWidth + iconPadding * 2
         return ZStack(alignment: .bottomTrailing) {
             backgroundColor
@@ -179,7 +205,7 @@ struct TidyStepWidgetView: View {
                     .foregroundColor(titleColor)
                 HStack(alignment: .firstTextBaseline, spacing: 2) {
                     Text("\(entry.sessionsThisWeek)")
-                        .font(.system(size: 20, weight: .semibold, design: .rounded))
+                        .font(.system(size: 18, weight: .semibold, design: .rounded))
                         .monospacedDigit()
                         .foregroundColor(valueColor)
                     Text(WidgetStrings.sessionsThisWeek(lang))
@@ -190,15 +216,25 @@ struct TidyStepWidgetView: View {
                     Text(daysAgo(last, lang: lang))
                         .font(.system(size: 9))
                         .foregroundColor(labelColor)
+                        .lineLimit(1)
+                    if let dur = entry.lastSessionDurationSeconds, let steps = entry.lastSessionSteps, let cal = entry.lastSessionCalories {
+                        Text(formatLastSessionLine(durationSeconds: dur, steps: steps, calories: cal, lang: lang))
+                            .font(.system(size: 9))
+                            .foregroundColor(labelColor.opacity(0.9))
+                            .lineLimit(1)
+                            .minimumScaleFactor(0.75)
+                    }
                 } else {
                     Text(WidgetStrings.noTidyYet(lang))
                         .font(.system(size: 9))
                         .foregroundColor(labelColor.opacity(0.8))
+                        .lineLimit(1)
                 }
                 if entry.reminderEnabled && !entry.reminderText.isEmpty {
                     Text(entry.reminderText)
                         .font(.system(size: 8))
                         .foregroundColor(labelColor.opacity(0.7))
+                        .lineLimit(1)
                 }
                 Spacer(minLength: 6)
                 Text(entry.widgetEncouragementText.isEmpty ? WidgetStrings.fallbackEncouragement(lang) : entry.widgetEncouragementText)
@@ -210,11 +246,11 @@ struct TidyStepWidgetView: View {
                     .multilineTextAlignment(.leading)
                     .fixedSize(horizontal: false, vertical: true)
                     .padding(.top, 4)
-                    .padding(.trailing, 12)
+                    .padding(.trailing, 8)
                     .padding(.bottom, 4)
             }
             .frame(maxWidth: .infinity, maxHeight: .infinity, alignment: .leading)
-            .padding(EdgeInsets(top: 22, leading: 18, bottom: 24, trailing: trailingForIcon + 8))
+            .padding(EdgeInsets(top: contentPadding, leading: contentPadding, bottom: contentPadding + 4, trailing: trailingForIcon + contentPadding))
             Image("WidgetIcon")
                 .resizable()
                 .scaledToFit()
@@ -222,6 +258,14 @@ struct TidyStepWidgetView: View {
                 .padding(iconPadding)
         }
         .clipped()
+    }
+
+    private func formatLastSessionLine(durationSeconds: Int, steps: Int, calories: Double, lang: String) -> String {
+        let min = durationSeconds / 60
+        if lang == "zh-Hans" {
+            return "\(min)\(WidgetStrings.minutes(lang)) · \(steps)\(WidgetStrings.stepsLabel(lang)) · \(Int(calories))\(WidgetStrings.caloriesLabel(lang))"
+        }
+        return "\(min) \(WidgetStrings.minutes(lang)) · \(steps) \(WidgetStrings.stepsLabel(lang)) · \(Int(calories)) \(WidgetStrings.caloriesLabel(lang))"
     }
 
     private func daysAgo(_ date: Date, lang: String) -> String {

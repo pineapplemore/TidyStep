@@ -33,6 +33,7 @@
 		C301 /* TidyStepWidget.swift in Sources */ = {isa = PBXBuildFile; fileRef = F301 /* TidyStepWidget.swift */; };
 		C302W /* Assets.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = F304 /* Assets.xcassets */; };
 		C401 /* WidgetKit.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = F401 /* WidgetKit.framework */; };
+		C402 /* WidgetKit.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = F401 /* WidgetKit.framework */; };
 		C801 /* TidyStepWidget.appex in Embed Foundation Extensions */ = {isa = PBXBuildFile; fileRef = E002 /* TidyStepWidget.appex */; settings = {ATTRIBUTES = (RemoveHeadersOnCopy, ); }; };
 /* End PBXBuildFile section */
 
@@ -101,6 +102,7 @@
 			isa = PBXFrameworksBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				C402 /* WidgetKit.framework in Frameworks */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
