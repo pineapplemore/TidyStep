@@ -154,6 +154,7 @@ struct TidyStepWidgetView: View {
                     .font(.caption2)
                     .fontWeight(.medium)
                     .foregroundColor(titleColor)
+                    .lineLimit(1)
                 HStack(alignment: .firstTextBaseline, spacing: 4) {
                     Text("\(entry.sessionsThisWeek)")
                         .font(.system(size: 22, weight: .semibold, design: .rounded))
@@ -169,11 +170,14 @@ struct TidyStepWidgetView: View {
                         .foregroundColor(labelColor)
                         .lineLimit(1)
                     if let dur = entry.lastSessionDurationSeconds, let steps = entry.lastSessionSteps, let cal = entry.lastSessionCalories {
-                        Text(formatLastSessionLine(durationSeconds: dur, steps: steps, calories: cal, lang: lang))
-                            .font(.system(size: 8))
+                        Text(formatDurationStepsLine(durationSeconds: dur, steps: steps, lang: lang))
+                            .font(.system(size: 10))
                             .foregroundColor(labelColor.opacity(0.9))
                             .lineLimit(1)
-                            .minimumScaleFactor(0.7)
+                        Text("\(Int(cal))\(WidgetStrings.caloriesLabel(lang))")
+                            .font(.system(size: 10))
+                            .foregroundColor(labelColor.opacity(0.9))
+                            .lineLimit(1)
                     }
                 } else {
                     Text(WidgetStrings.noTidyYet(lang))
@@ -265,6 +269,15 @@ struct TidyStepWidgetView: View {
                 .frame(width: iconWidth, height: iconWidth)
                 .padding(iconPadding)
         }
+    }
+
+    /// 小号组件第一行：时长 · 步数（卡路里单独下一行）
+    private func formatDurationStepsLine(durationSeconds: Int, steps: Int, lang: String) -> String {
+        let min = durationSeconds / 60
+        if lang == "zh-Hans" {
+            return "\(min)\(WidgetStrings.minutes(lang)) · \(steps)\(WidgetStrings.stepsLabel(lang))"
+        }
+        return "\(min) \(WidgetStrings.minutes(lang)) · \(steps) \(WidgetStrings.stepsLabel(lang))"
     }
 
     private func formatLastSessionLine(durationSeconds: Int, steps: Int, calories: Double, lang: String) -> String {
