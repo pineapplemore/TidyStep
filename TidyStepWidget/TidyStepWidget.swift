@@ -293,5 +293,6 @@ struct TidyStepWidget: Widget {
         .configurationDisplayName("TidyStep")
         .description("This week's sessions and last tidy.")
         .supportedFamilies([.systemSmall, .systemMedium])
+        // 若使用 Xcode 15+ / iOS 17 SDK，可取消下行注释以取消系统 margin、让背景铺满：.contentMarginsDisabled()
     }
 }
