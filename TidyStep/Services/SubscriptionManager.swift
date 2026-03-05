@@ -24,6 +24,8 @@ final class SubscriptionManager: ObservableObject {
     @Published var debugForceSubscribed: Bool = false
     @Published private(set) var isLoading: Bool = false
     @Published private(set) var purchaseError: String? = nil
+    /// 产品列表加载失败或超时，Paywall 可显示提示与重试按钮，避免无限转圈。
+    @Published private(set) var productsLoadFailed: Bool = false
 
     /// 是否有权使用高级功能：真实订阅或调试开启时为 true。
     var hasAccess: Bool { isSubscribed || debugForceSubscribed }
@@ -63,12 +65,40 @@ final class SubscriptionManager: ObservableObject {
         return intro.paymentMode == .freeTrial
     }
 
+    private static let productsLoadTimeoutNanoseconds: UInt64 = 15_000_000_000
+
     func loadProducts() async {
-        do {
-            let ids = [monthlyId, yearlyId]
-            products = try await Product.products(for: ids).sorted { $0.price < $1.price }
-        } catch {
+        productsLoadFailed = false
+        let ids = [monthlyId, yearlyId]
+        enum LoadResult {
+            case success([Product])
+            case timeout
+            case failure(Error)
+        }
+        let result: LoadResult = await withTaskGroup(of: LoadResult.self) { group in
+            group.addTask {
+                do {
+                    let list = try await Product.products(for: ids)
+                    return .success(list)
+                } catch {
+                    return .failure(error)
+                }
+            }
+            group.addTask {
+                try? await Task.sleep(nanoseconds: Self.productsLoadTimeoutNanoseconds)
+                return .timeout
+            }
+            let first = await group.next()!
+            group.cancelAll()
+            return first
+        }
+        switch result {
+        case .success(let list):
+            products = list.sorted { $0.price < $1.price }
+            productsLoadFailed = products.isEmpty
+        case .timeout, .failure:
             products = []
+            productsLoadFailed = true
         }
     }
 

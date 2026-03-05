@@ -131,6 +131,8 @@
 "paywall_start_trial" = "开始免费试用";
 "paywall_restore" = "恢复购买";
 "paywall_maybe_later" = "稍后再说";
+"paywall_products_load_failed" = "无法加载订阅选项，请重试。";
+"paywall_retry" = "重试";
 "paywall_feature_stats" = "本周/本月统计与图表";
 "paywall_feature_reminder" = "灵活提醒（每 3 天或 5 天）";
 "paywall_feature_widget" = "主屏幕小组件";

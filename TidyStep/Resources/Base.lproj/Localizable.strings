@@ -131,6 +131,8 @@
 "paywall_start_trial" = "Start free trial";
 "paywall_restore" = "Restore purchases";
 "paywall_maybe_later" = "Maybe later";
+"paywall_products_load_failed" = "Unable to load subscription options. Please try again.";
+"paywall_retry" = "Retry";
 "paywall_feature_stats" = "Weekly & monthly stats and charts";
 "paywall_feature_reminder" = "Flexible reminder (every 3 or 5 days)";
 "paywall_feature_widget" = "Home screen widget";

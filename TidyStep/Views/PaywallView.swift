@@ -28,7 +28,11 @@ struct PaywallView: View {
                     header
                     features
                     if subscription.products.isEmpty {
-                        progressView
+                        if subscription.productsLoadFailed {
+                            productsLoadFailedView
+                        } else {
+                            progressView
+                        }
                     } else {
                         subscriptionOptions
                     }
@@ -104,6 +108,31 @@ struct PaywallView: View {
             .tint(.white)
             .frame(maxWidth: .infinity)
             .padding(32)
+    }
+
+    private var productsLoadFailedView: some View {
+        VStack(spacing: 16) {
+            Text(appLanguage.string("paywall_products_load_failed"))
+                .font(.subheadline)
+                .foregroundStyle(Color(hex: 0x9CA3AF))
+                .multilineTextAlignment(.center)
+            Button {
+                Task {
+                    await subscription.loadProducts()
+                }
+            } label: {
+                Text(appLanguage.string("paywall_retry"))
+                    .fontWeight(.semibold)
+                    .foregroundStyle(.black)
+                    .frame(maxWidth: .infinity)
+                    .padding(.vertical, 12)
+                    .background(accent)
+                    .clipShape(Capsule())
+            }
+            .buttonStyle(.plain)
+        }
+        .frame(maxWidth: .infinity)
+        .padding(24)
     }
 
     private var subscriptionOptions: some View {
